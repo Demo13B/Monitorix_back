@@ -9,12 +9,12 @@ ALTER TABLE
 CREATE TABLE "trackers"(
     "mac_adress" VARCHAR(255) NOT NULL,
     "description" VARCHAR(255) NOT NULL,
-    "new_column" BIGINT NOT NULL,
     "tracker_id" BIGINT NOT NULL
 );
 ALTER TABLE
     "trackers" ADD PRIMARY KEY("tracker_id");
 CREATE TABLE "tracker_data"(
+    "time" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL,
     "temperature" SMALLINT NOT NULL,
     "activity" BOOLEAN NOT NULL,
     "data_id" BIGINT NOT NULL,
@@ -32,7 +32,7 @@ ALTER TABLE
     "tracker_data" ADD PRIMARY KEY("data_id");
 CREATE TABLE "roles"(
     "role_id" BIGINT NOT NULL,
-    "access_rights" BIGINT NOT NULL,
+    "access_rights" SMALLINT NOT NULL,
     "name" VARCHAR(255) NOT NULL
 );
 ALTER TABLE
