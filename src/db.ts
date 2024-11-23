@@ -8,5 +8,8 @@ export const dbPool = new Pool({
     user: process.env.DBUSER,
     port: Number(process.env.DBPORT),
     password: process.env.DBPASSWD,
-    database: process.env.DBNAME
+    database: process.env.DBNAME,
+    max: 20,
+    idleTimeoutMillis: 3000,
+    connectionTimeoutMillis: 3000
 });

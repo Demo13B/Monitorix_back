@@ -1,44 +1,43 @@
 export type role = {
-    role_id: bigint,
+    role_id: number,
     name: string,
     access_rights: number
 };
 
 export type user = {
-    user_id: bigint,
+    user_id: number,
     password_hash: string,
     first_name: string,
     last_name: string,
     phone_number: string,
     profession: string,
-    role_id: bigint,
-    brigade_id: bigint,
-    tracker_id: bigint
+    role_id: number,
+    brigade_id: number,
+    tracker_id: number
 };
 
 export type brigade = {
-    brigade_id: bigint,
-    brigadier_id: bigint,
+    brigade_id: number,
     name: string,
-    facility_id: bigint
+    facility_id: number
 };
 
 export type facility = {
-    facility_id: bigint,
+    facility_id: number,
     name: string,
     latitude: number,
     longitude: number
 };
 
 export type tracker = {
-    tracker_id: bigint,
+    tracker_id: number,
     mac_adress: string,
     description: string
 };
 
 export type tracker_data = {
-    data_id: bigint,
-    tracker_id: bigint,
+    data_id: number,
+    tracker_id: number,
     air_pressure: number,
     pulse: number,
     latitude: number,

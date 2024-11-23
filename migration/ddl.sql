@@ -1,13 +1,12 @@
 CREATE TABLE "brigade"(
     "facility_id" BIGINT NOT NULL,
     "brigade_id" BIGINT NOT NULL,
-    "name" BIGINT NOT NULL,
-    "brigadier_id" BIGINT NOT NULL
+    "name" VARCHAR(255) NOT NULL
 );
 ALTER TABLE
     "brigade" ADD PRIMARY KEY("brigade_id");
 CREATE TABLE "trackers"(
-    "mac_adress" VARCHAR(255) NOT NULL,
+    "mac_address" VARCHAR(255) NOT NULL,
     "description" VARCHAR(255) NOT NULL,
     "tracker_id" BIGINT NOT NULL
 );
@@ -66,8 +65,6 @@ CREATE TABLE "users"(
 );
 ALTER TABLE
     "users" ADD PRIMARY KEY("user_id");
-ALTER TABLE
-    "brigade" ADD CONSTRAINT "brigade_brigadier_id_foreign" FOREIGN KEY("brigadier_id") REFERENCES "users"("user_id");
 ALTER TABLE
     "brigade" ADD CONSTRAINT "brigade_facility_id_foreign" FOREIGN KEY("facility_id") REFERENCES "facilities"("facility_id");
 ALTER TABLE
