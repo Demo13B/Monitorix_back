@@ -11,4 +11,4 @@ export class PasswordHasher {
     public checkPassword = async (password: string, hash: string) => {
         return bcrypt.compare(password, hash);
     };
-}
+};

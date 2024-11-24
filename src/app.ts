@@ -1,20 +1,18 @@
 import express, { Express } from "express"
 import { Request, Response } from "express";
+import { AuthRouter } from "routers/auth";
 
 export class App {
-    private _app: Express;
+    private readonly _app: Express;
 
-    constructor() {
+    constructor(router: AuthRouter) {
         this._app = express();
 
-        this._app.get('/', async (req: Request, res: Response) => {
-            try {
-                res.status(200).send("OK");
-            } catch (error) {
-                console.log("Something went wrong");
-                res.send(400);
-            }
-        });
+        const bodyParser = express.json();
+
+        this._app.use(bodyParser);
+
+        this._app.use('/api/auth', router.get_internal());
     };
 
     public express_app = () => {
