@@ -3,8 +3,8 @@ import { PasswordHasher } from "../passwordHasher"
 import { credentials } from "../models/auth";
 
 export class AuthService {
-    private repo: AuthRepo;
-    private hasher: PasswordHasher;
+    private readonly repo: AuthRepo;
+    private readonly hasher: PasswordHasher;
 
     constructor(authRepo: AuthRepo, passHasher: PasswordHasher) {
         this.repo = authRepo;

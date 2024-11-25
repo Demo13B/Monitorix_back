@@ -20,7 +20,11 @@ export class AuthRouter {
                 res.sendStatus(502);
             }
 
-            if (!cred) res.sendStatus(401);
+            if (!cred) {
+                res.sendStatus(401)
+                return;
+            };
+
             res.status(200).json(cred);
         });
 

@@ -28,13 +28,13 @@ CREATE TABLE "facilities"(
 );
 ALTER TABLE
     "facilities" ADD PRIMARY KEY("facility_id");
-CREATE TABLE "brigade"(
+CREATE TABLE "brigades"(
     "brigade_id" SERIAL NOT NULL,
     "name" VARCHAR(255) NOT NULL,
     "facility_id" INTEGER NULL
 );
 ALTER TABLE
-    "brigade" ADD PRIMARY KEY("brigade_id");
+    "brigades" ADD PRIMARY KEY("brigade_id");
 CREATE TABLE "trackers"(
     "tracker_id" SERIAL NOT NULL,
     "mac_address" VARCHAR(255) NOT NULL,
@@ -68,11 +68,11 @@ CREATE TABLE "alerts"(
 ALTER TABLE
     "alerts" ADD PRIMARY KEY("alert_id");
 ALTER TABLE
-    "brigade" ADD CONSTRAINT "brigade_facility_id_foreign" FOREIGN KEY("facility_id") REFERENCES "facilities"("facility_id");
+    "brigades" ADD CONSTRAINT "brigade_facility_id_foreign" FOREIGN KEY("facility_id") REFERENCES "facilities"("facility_id");
 ALTER TABLE
     "tracker_data" ADD CONSTRAINT "tracker_data_tracker_id_foreign" FOREIGN KEY("tracker_id") REFERENCES "trackers"("tracker_id");
 ALTER TABLE
-    "users" ADD CONSTRAINT "users_brigade_id_foreign" FOREIGN KEY("brigade_id") REFERENCES "brigade"("brigade_id");
+    "users" ADD CONSTRAINT "users_brigade_id_foreign" FOREIGN KEY("brigade_id") REFERENCES "brigades"("brigade_id");
 ALTER TABLE
     "users" ADD CONSTRAINT "users_role_id_foreign" FOREIGN KEY("role_id") REFERENCES "roles"("role_id");
 ALTER TABLE

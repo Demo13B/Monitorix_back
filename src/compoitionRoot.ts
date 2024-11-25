@@ -4,6 +4,9 @@ import { AuthService } from "./service/auth";
 import { AuthValidation } from "./middleware/auth";
 import { AuthRepo } from "./repository/auth";
 import { PasswordHasher } from "./passwordHasher";
+import { UserRepository } from "./repository/users";
+import { UserService } from "./service/users";
+import { UserRouter } from "./routers/users";
 
 export class CompositionRoot {
     private readonly _app: App;
@@ -15,7 +18,12 @@ export class CompositionRoot {
         const authService = new AuthService(authRepo, hasher);
         const authValid = new AuthValidation(authService);
         const authRouter = new AuthRouter(authService, authValid);
-        this._app = new App(authRouter);
+
+        const userRepo = new UserRepository;
+        const userService = new UserService(userRepo, hasher);
+        const userRouter = new UserRouter(userService, authValid);
+
+        this._app = new App(authRouter, userRouter);
     }
 
     app = () => {

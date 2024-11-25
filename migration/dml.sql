@@ -12,7 +12,7 @@ VALUES
     ('Facility B', 34.052235, -118.243683);
 
 -- Insert into brigade
-INSERT INTO "brigade" ("name", "facility_id")
+INSERT INTO "brigades" ("name", "facility_id")
 VALUES
     ('Brigade Alpha', 1),
     ('Brigade Beta', 2);
