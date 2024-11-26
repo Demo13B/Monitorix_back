@@ -12,9 +12,12 @@ export class DataRouter {
         this._router.get('/', auth.userPassCheck, auth.authValid, async (req: Request, res: Response) => {
             const user_id = req.body.user_id;
             const ar = req.body.access_rights;
+            const brigade_id = req.body.brigade_id;
+
             let result: data[] | null = null;
+
             try {
-                result = await service.findData(user_id, ar);
+                result = await service.findData(user_id, brigade_id, ar);
             } catch {
                 res.sendStatus(502);
                 return;

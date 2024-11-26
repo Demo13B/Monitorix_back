@@ -1,3 +1,4 @@
+import { data } from "models/objects";
 import { PasswordHasher } from "passwordHasher";
 import { DataRepository } from "repository/data";
 
@@ -10,10 +11,35 @@ export class DataService {
         this._hasher = hasher;
     }
 
-    public findData = async (user_id: string, access_rights: number) => {
+    public findData = async (user_id: string, brigade_id: string, access_rights: number) => {
+        let res: data[];
         if (access_rights === 1) {
-            return (await this._repo.readByID(user_id))
+            try {
+                res = await this._repo.readByID(user_id);
+            } catch (serviceError) {
+                throw serviceError;
+            }
+            return res;
         }
+
+        if (access_rights === 2) {
+            try {
+                res = await this._repo.readByBrigade(brigade_id);
+            } catch (serviceError) {
+                throw serviceError;
+            }
+            return res;
+        }
+
+        if (access_rights === 3) {
+            try {
+                res = await this._repo.readAll();
+            } catch (serviceError) {
+                throw serviceError;
+            }
+            return res;
+        }
+
         return null;
     };
 };
