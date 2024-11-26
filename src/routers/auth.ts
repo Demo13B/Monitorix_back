@@ -9,7 +9,7 @@ export class AuthRouter {
     constructor(service: AuthService, auth: AuthValidation) {
         this._router = Router();
 
-        this._router.get('/', auth.authValid, async (req: Request, res: Response) => {
+        this._router.get('/', auth.userPassCheck, auth.authValid, async (req: Request, res: Response) => {
             const username = req.body.username;
             const password = req.body.password;
 

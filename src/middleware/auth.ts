@@ -9,6 +9,14 @@ export class AuthValidation {
         this._authService = service;
     };
 
+    public userPassCheck = async (req: Request, res: Response, next: NextFunction) => {
+        if (!req.body.username || !req.body.password) {
+            res.sendStatus(400);
+            return;
+        }
+        next();
+    }
+
     public authValid = async (req: Request, res: Response, next: NextFunction) => {
         const user: string = req.body.username;
         const password: string = req.body.password;
@@ -28,6 +36,7 @@ export class AuthValidation {
 
         req.body.user_id = cred.user_id;
         req.body.access_rights = cred.access_rights;
+        req.body.brigade_id = cred.brigade_id;
 
         next();
     };

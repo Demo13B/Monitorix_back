@@ -9,7 +9,7 @@ export class UserRouter {
     constructor(service: UserService, auth: AuthValidation) {
         this._router = Router();
 
-        this._router.get('/', auth.authValid, async (req: Request, res: Response) => {
+        this._router.get('/', auth.userPassCheck, auth.authValid, async (req: Request, res: Response) => {
             const user_id = req.body.user_id;
             const ar = req.body.access_rights;
             let result: user[] | null = null;
