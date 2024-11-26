@@ -7,6 +7,9 @@ import { PasswordHasher } from "./passwordHasher";
 import { UserRepository } from "./repository/users";
 import { UserService } from "./service/users";
 import { UserRouter } from "./routers/users";
+import { DataRepository } from "./repository/data";
+import { DataService } from "./service/data";
+import { DataRouter } from "./routers/data";
 
 export class CompositionRoot {
     private readonly _app: App;
@@ -23,7 +26,11 @@ export class CompositionRoot {
         const userService = new UserService(userRepo, hasher);
         const userRouter = new UserRouter(userService, authValid);
 
-        this._app = new App(authRouter, userRouter);
+        const dataRepo = new DataRepository;
+        const dataService = new DataService(dataRepo, hasher);
+        const dataRouter = new DataRouter(dataService, authValid);
+
+        this._app = new App(authRouter, userRouter, dataRouter);
     }
 
     app = () => {

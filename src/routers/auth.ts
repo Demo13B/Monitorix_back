@@ -18,6 +18,7 @@ export class AuthRouter {
                 cred = await service.authenticate(username, password);
             } catch {
                 res.sendStatus(502);
+                return;
             }
 
             if (!cred) {

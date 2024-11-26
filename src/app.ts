@@ -1,12 +1,16 @@
-import express, { Express } from "express"
-import { Request, Response } from "express";
+import express, { Express } from "express";
 import { AuthRouter } from "routers/auth";
+import { DataRouter } from "routers/data";
 import { UserRouter } from "routers/users";
 
 export class App {
     private readonly _app: Express;
 
-    constructor(authRouter: AuthRouter, userRouter: UserRouter) {
+    constructor(
+        authRouter: AuthRouter,
+        userRouter: UserRouter,
+        dataRouter: DataRouter
+    ) {
         this._app = express();
 
         const bodyParser = express.json();
@@ -15,6 +19,7 @@ export class App {
 
         this._app.use('/api/auth', authRouter.get_internal());
         this._app.use('/api/users', userRouter.get_internal());
+        this._app.use('/api/data', dataRouter.get_internal());
     };
 
     public express_app = () => {
