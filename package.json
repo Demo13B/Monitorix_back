@@ -21,6 +21,7 @@
   },
   "scripts": {
     "start-dev": "ts-node src/index.ts",
-    "compile": "tsc"
+    "compile": "tsc",
+    "start": "node dist/index.js"
   }
 }
