@@ -10,12 +10,14 @@ import { UserRouter } from "./routers/users";
 import { DataRepository } from "./repository/data";
 import { DataService } from "./service/data";
 import { DataRouter } from "./routers/data";
+import { DataValidator } from "./middleware/dataChecker";
 
 export class CompositionRoot {
     private readonly _app: App;
 
     constructor() {
         const hasher = new PasswordHasher;
+        const dataValid = new DataValidator;
 
         const authRepo = new AuthRepo;
         const authService = new AuthService(authRepo, hasher);
@@ -28,7 +30,7 @@ export class CompositionRoot {
 
         const dataRepo = new DataRepository;
         const dataService = new DataService(dataRepo, hasher);
-        const dataRouter = new DataRouter(dataService, authValid);
+        const dataRouter = new DataRouter(dataService, authValid, dataValid);
 
         this._app = new App(authRouter, userRouter, dataRouter);
     }

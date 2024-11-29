@@ -129,4 +129,48 @@ export class DataRepository {
 
         return data;
     };
+
+    public readLastData = async (user_id: string) => {
+        let data: data[]
+
+        try {
+            const client = await dbPool.connect();
+            try {
+                data = (await client.query(`
+                    SELECT
+                        d.time,
+                    	login,
+	                    t.mac_address as tracker,
+                        t.description,
+                        d.air_pressure,
+                        d.temperature,
+                        d.humidity,
+                        d.pulse,
+                        d.latitude,
+                        d.longitude,
+                        d.activity,
+                        d.fall,
+                        d.analyzer_alarm,
+                        d.charge
+                    FROM users
+                        JOIN trackers t
+                        USING (tracker_id)
+                        JOIN tracker_data d
+                        USING (tracker_id)
+                    WHERE user_id = $1
+                    ORDER BY 
+                        d.time desc
+                    LIMIT 1
+                    `, [user_id])).rows;
+            } catch (queryError) {
+                throw queryError;
+            } finally {
+                client.release();
+            }
+        } catch (connError) {
+            throw connError;
+        }
+
+        return data;
+    };
 };

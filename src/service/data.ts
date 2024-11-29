@@ -42,4 +42,8 @@ export class DataService {
 
         return null;
     };
+
+    public findLastData = async (user_id: string) => {
+        return await this._repo.readLastData(user_id);
+    };
 };
