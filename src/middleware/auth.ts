@@ -25,7 +25,8 @@ export class AuthValidation {
         try {
             cred = await this._authService.authenticate(user, password)
         } catch (error) {
-            res.sendStatus(502);
+            res.sendStatus(503);
+            console.error(error);
             return;
         }
 

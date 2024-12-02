@@ -1,14 +1,11 @@
 import { data } from "models/objects";
-import { PasswordHasher } from "passwordHasher";
 import { DataRepository } from "repository/data";
 
 export class DataService {
     private readonly _repo: DataRepository;
-    private readonly _hasher: PasswordHasher;
 
-    constructor(repo: DataRepository, hasher: PasswordHasher) {
+    constructor(repo: DataRepository) {
         this._repo = repo;
-        this._hasher = hasher;
     }
 
     public findData = async (user_id: string, brigade_id: string, access_rights: number) => {

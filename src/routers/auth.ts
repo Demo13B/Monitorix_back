@@ -16,8 +16,9 @@ export class AuthRouter {
             let cred: credentials | null = null;
             try {
                 cred = await service.authenticate(username, password);
-            } catch {
-                res.sendStatus(502);
+            } catch (error) {
+                res.sendStatus(503);
+                console.error(error);
                 return;
             }
 

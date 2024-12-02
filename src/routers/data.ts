@@ -19,8 +19,9 @@ export class DataRouter {
 
             try {
                 result = await service.findData(user_id, brigade_id, ar);
-            } catch {
-                res.sendStatus(502);
+            } catch (error) {
+                res.sendStatus(503);
+                console.log(error);
                 return;
             }
 

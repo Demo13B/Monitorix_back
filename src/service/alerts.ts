@@ -1,15 +1,15 @@
-import { user } from "models/objects";
-import { UserRepository } from "repository/users";
+import { alert } from "models/objects";
+import { AlertsRepository } from "repository/alerts";
 
-export class UserService {
-    private readonly _repo: UserRepository;
+export class AlertsService {
+    private readonly _repo: AlertsRepository;
 
-    constructor(repo: UserRepository) {
+    constructor(repo: AlertsRepository) {
         this._repo = repo;
     }
 
-    public findUsers = async (user_id: string, brigade_id: string, access_rights: number) => {
-        let res: user[];
+    public findAlerts = async (user_id: string, brigade_id: string, access_rights: number) => {
+        let res: alert[];
 
         if (access_rights === 1) {
             try {

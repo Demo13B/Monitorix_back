@@ -27,3 +27,11 @@ export type data = {
     analyzer_alarm: boolean,
     time: string
 };
+
+export type alert = {
+    login: string,
+    tracker: string,
+    type: number,
+    message: string,
+    time: string
+};

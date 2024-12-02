@@ -73,32 +73,32 @@ VALUES
     (6, 1013.00, 68, 34.0522, -118.2437, TRUE, FALSE, 36, 50, 85, FALSE, '2024-11-24 09:00:00'),
     (6, 920.00, 40, 34.0522, -118.2437, FALSE, TRUE, 15, 5, 3, TRUE, '2024-11-24 10:30:00');
 
-INSERT INTO "alerts" ("tracker_id", "type", "message")
+INSERT INTO "alerts" ("tracker_id", "type", "message", "time")
 VALUES
     -- Tracker 1 Alerts
-    (1, 1, 'Low air pressure detected'),
-    (1, 1, 'High pulse detected'),
-    (1, 1, 'High temperature detected'),
-    (1, 2, 'Low battery'),
+    (1, 1, 'Low air pressure detected', '2024-11-24 08:45:00'),
+    (1, 1, 'High pulse detected', '2024-11-24 08:45:00'),
+    (1, 1, 'High temperature detected', '2024-11-24 08:45:00'),
+    (1, 2, 'Low battery', '2024-11-24 08:45:00'),
 
     -- Tracker 2 Alerts
-    (2, 2, 'Detected a fall'),
-    (2, 1, 'Abnormally low temperature detected'),
+    (2, 2, 'Detected a fall', '2024-11-24 08:45:00'),
+    (2, 1, 'Abnormally low temperature detected', '2024-11-24 08:45:00'),
 
     -- Tracker 3 Alerts
-    (3, 1, 'Extremely low air pressure'),
-    (3, 2, 'Low battery'),
+    (3, 1, 'Extremely low air pressure', '2024-11-24 08:45:00'),
+    (3, 2, 'Low battery', '2024-11-24 08:45:00'),
 
     -- Tracker 4 Alerts
-    (4, 1, 'High pulse detected'),
-    (4, 2, 'Detected a fall'),
+    (4, 1, 'High pulse detected', '2024-11-24 08:45:00'),
+    (4, 2, 'Detected a fall', '2024-11-24 08:45:00'),
 
     -- Tracker 5 Alerts
-    (5, 1, 'High pulse detected'),
-    (5, 1, 'High temperature detected'),
+    (5, 1, 'High pulse detected', '2024-11-24 08:45:00'),
+    (5, 1, 'High temperature detected', '2024-11-24 08:45:00'),
 
     -- Tracker 6 Alerts
-    (6, 1, 'Low air pressure detected'),
-    (6, 2, 'Low battery'),
-    (6, 2, 'No activity');
+    (6, 1, 'Low air pressure detected', '2024-11-24 08:45:00'),
+    (6, 2, 'Low battery', '2024-11-24 08:45:00'),
+    (6, 2, 'No activity', '2024-11-24 08:45:00');
 

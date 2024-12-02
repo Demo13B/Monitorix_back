@@ -63,12 +63,13 @@ CREATE TABLE "alerts"(
     "alert_id" SERIAL NOT NULL,
     "tracker_id" INTEGER NOT NULL,
     "type" SMALLINT NOT NULL,
-    "message" VARCHAR(255) NOT NULL
+    "message" VARCHAR(255) NOT NULL,
+    "time" TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL
 );
 ALTER TABLE
     "alerts" ADD PRIMARY KEY("alert_id");
 ALTER TABLE
-    "brigades" ADD CONSTRAINT "brigade_facility_id_foreign" FOREIGN KEY("facility_id") REFERENCES "facilities"("facility_id");
+    "brigades" ADD CONSTRAINT "brigades_facility_id_foreign" FOREIGN KEY("facility_id") REFERENCES "facilities"("facility_id");
 ALTER TABLE
     "tracker_data" ADD CONSTRAINT "tracker_data_tracker_id_foreign" FOREIGN KEY("tracker_id") REFERENCES "trackers"("tracker_id");
 ALTER TABLE
