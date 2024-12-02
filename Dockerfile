@@ -4,14 +4,12 @@ WORKDIR /app
 
 RUN apt update && apt upgrade -y
 
-RUN npm install -g yarn
-
 COPY ./package.json /app/
 COPY ./yarn.lock /app/
 
 RUN yarn install --production
 
-COPY ./dist /app/
-COPY ./.env /app/
+COPY ./dist /app/dist
+COPY ./.env /app/.env
 
 ENTRYPOINT [ "yarn", "start" ]
