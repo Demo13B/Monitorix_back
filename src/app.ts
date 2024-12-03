@@ -1,6 +1,7 @@
 import express, { Express } from "express";
 import { AlertsRouter } from "routers/alerts";
 import { AuthRouter } from "routers/auth";
+import { BrigadesRouter } from "routers/brigades";
 import { DataRouter } from "routers/data";
 import { UserRouter } from "routers/users";
 
@@ -11,7 +12,8 @@ export class App {
         authRouter: AuthRouter,
         userRouter: UserRouter,
         dataRouter: DataRouter,
-        alertsRouter: AlertsRouter
+        alertsRouter: AlertsRouter,
+        brigadesRouter: BrigadesRouter
     ) {
         this._app = express();
 
@@ -23,6 +25,7 @@ export class App {
         this._app.use('/api/users', userRouter.get_internal());
         this._app.use('/api/data', dataRouter.get_internal());
         this._app.use('/api/alerts', alertsRouter.get_internal());
+        this._app.use('/api/brigades', brigadesRouter.get_internal());
     };
 
     public express_app = () => {

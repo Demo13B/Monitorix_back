@@ -35,3 +35,12 @@ export type alert = {
     message: string,
     time: string
 };
+
+export type brigade = {
+    name: string,
+    brigadier_name: string,
+    brigadier_surname: string,
+    facility_name: string,
+    latitude: number,
+    longitude: number
+}

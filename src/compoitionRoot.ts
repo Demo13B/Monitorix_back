@@ -14,6 +14,9 @@ import { DataValidator } from "./middleware/dataChecker";
 import { AlertsRepository } from "./repository/alerts";
 import { AlertsService } from "./service/alerts";
 import { AlertsRouter } from "./routers/alerts";
+import { BrigadeRepository } from "./repository/brigades";
+import { BrigadesService } from "./service/brigades";
+import { BrigadesRouter } from "./routers/brigades";
 
 export class CompositionRoot {
     private readonly _app: App;
@@ -39,7 +42,11 @@ export class CompositionRoot {
         const alertsService = new AlertsService(alertsRepo);
         const alertsRouter = new AlertsRouter(alertsService, alertsRepo, authValid);
 
-        this._app = new App(authRouter, userRouter, dataRouter, alertsRouter);
+        const brigadesRepo = new BrigadeRepository;
+        const brigadesService = new BrigadesService(brigadesRepo);
+        const brigadesRouter = new BrigadesRouter(brigadesService, authValid);
+
+        this._app = new App(authRouter, userRouter, dataRouter, alertsRouter, brigadesRouter);
     }
 
     app = () => {
