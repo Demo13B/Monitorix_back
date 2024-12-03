@@ -27,7 +27,7 @@ export class BrigadeRepository {
             } catch (queryError) {
                 throw queryError;
             } finally {
-                client.release;
+                client.release();
             }
         } catch (connError) {
             throw connError;
