@@ -50,3 +50,21 @@ export type facility = {
     latitude: number,
     longitude: number
 };
+
+export type userStat = {
+    login: string,
+    yellow: number,
+    red: number
+};
+
+export type brigadeStat = {
+    name: string,
+    yellow: number,
+    red: number
+};
+
+export type facilityStat = {
+    name: string,
+    yellow: number,
+    red: number
+};

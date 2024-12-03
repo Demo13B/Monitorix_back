@@ -1,4 +1,4 @@
-import { alert } from "models/objects";
+import { alert, userStat, brigadeStat, facilityStat } from "models/objects";
 import { dbPool } from "../db";
 
 export class AlertsRepository {
@@ -101,5 +101,98 @@ export class AlertsRepository {
         }
 
         return alerts;
+    };
+
+    public readStatsByUser = async () => {
+        let stats: userStat[]
+
+        try {
+            const client = await dbPool.connect();
+            try {
+                stats = (await client.query(`
+                    SELECT
+                        login,
+                        count(type) filter (WHERE type = 1) as yellow,
+                        count(type) filter (WHERE type = 2) as red
+                    FROM users
+                        JOIN alerts
+                        USING (tracker_id)
+                    GROUP BY user_id
+                    ORDER BY user_id
+                    `)).rows;
+            } catch (queryError) {
+                throw queryError;
+            } finally {
+                client.release();
+            }
+        } catch (connError) {
+            throw connError;
+        }
+
+        return stats;
+    };
+
+    public readStatsByBrigade = async () => {
+        let stats: brigadeStat[]
+
+        try {
+            const client = await dbPool.connect();
+            try {
+                stats = (await client.query(`
+                    SELECT
+                        max(b.name) as name,
+                        count(type) filter (WHERE type = 1) as yellow,
+                        count(type) filter (WHERE type = 2) as red
+                    FROM users
+                        JOIN alerts
+                        USING (tracker_id)
+                        JOIN brigades b 
+                        USING (brigade_id)
+                    GROUP BY brigade_id
+                    ORDER BY brigade_id
+                    `)).rows;
+            } catch (queryError) {
+                throw queryError;
+            } finally {
+                client.release();
+            }
+        } catch (connError) {
+            throw connError;
+        }
+
+        return stats;
+    };
+
+    public readStatsByFacility = async () => {
+        let stats: facilityStat[]
+
+        try {
+            const client = await dbPool.connect();
+            try {
+                stats = (await client.query(`
+                    SELECT
+                        max(f.name) as name,
+                        count(type) filter (WHERE type = 1) as yellow,
+                        count(type) filter (WHERE type = 2) as red
+                    FROM users
+                        JOIN alerts
+                        USING (tracker_id)
+                        JOIN brigades b 
+                        USING (brigade_id)
+                        JOIN facilities f
+                        USING (facility_id)
+                    GROUP BY facility_id
+                    ORDER BY facility_id
+                    `)).rows;
+            } catch (queryError) {
+                throw queryError;
+            } finally {
+                client.release();
+            }
+        } catch (connError) {
+            throw connError;
+        }
+
+        return stats;
     };
 };
