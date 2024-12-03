@@ -44,3 +44,9 @@ export type brigade = {
     latitude: number,
     longitude: number
 }
+
+export type facility = {
+    name: string,
+    latitude: number,
+    longitude: number
+};

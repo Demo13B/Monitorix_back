@@ -17,6 +17,9 @@ import { AlertsRouter } from "./routers/alerts";
 import { BrigadeRepository } from "./repository/brigades";
 import { BrigadesService } from "./service/brigades";
 import { BrigadesRouter } from "./routers/brigades";
+import { FacilitiesRepository } from "./repository/facilities";
+import { FacilitiesService } from "./service/facilities";
+import { FacilitiesRouter } from "./routers/facilities";
 
 export class CompositionRoot {
     private readonly _app: App;
@@ -46,7 +49,15 @@ export class CompositionRoot {
         const brigadesService = new BrigadesService(brigadesRepo);
         const brigadesRouter = new BrigadesRouter(brigadesService, authValid);
 
-        this._app = new App(authRouter, userRouter, dataRouter, alertsRouter, brigadesRouter);
+        const facilitiesRepo = new FacilitiesRepository;
+        const facilitiesService = new FacilitiesService(facilitiesRepo);
+        const facilitiesRouter = new FacilitiesRouter(facilitiesService, authValid);
+
+
+        this._app = new App(
+            authRouter, userRouter, dataRouter,
+            alertsRouter, brigadesRouter, facilitiesRouter
+        );
     }
 
     app = () => {
