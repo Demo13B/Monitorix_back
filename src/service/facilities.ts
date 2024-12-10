@@ -19,4 +19,12 @@ export class FacilitiesService {
 
         return res;
     }
+
+    public insert = async (fac: facility) => {
+        try {
+            await this._repo.writeFacility(fac);
+        } catch (error) {
+            throw error;
+        }
+    }
 };

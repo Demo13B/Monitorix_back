@@ -51,7 +51,7 @@ export class CompositionRoot {
 
         const facilitiesRepo = new FacilitiesRepository;
         const facilitiesService = new FacilitiesService(facilitiesRepo);
-        const facilitiesRouter = new FacilitiesRouter(facilitiesService, authValid);
+        const facilitiesRouter = new FacilitiesRouter(facilitiesService, authValid, dataValid);
 
 
         this._app = new App(
