@@ -168,6 +168,8 @@ export class UserRepository {
                 ])
             } catch (queryError) {
                 throw queryError;
+            } finally {
+                client.release();
             }
         } catch (connError) {
             throw connError;
