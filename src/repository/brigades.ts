@@ -16,13 +16,15 @@ export class BrigadeRepository {
                         f.latitude as latitude,
                         f.longitude as longitude
                     FROM brigades b
-                        JOIN users u
+                        LEFT JOIN users u
                         USING (brigade_id)
-                        JOIN roles r
+                        LEFT JOIN roles r
                         USING (role_id)
-                        JOIN facilities f
+                        LEFT JOIN facilities f
                         USING (facility_id)
-                    WHERE r.access_rights = 2
+                    WHERE 
+                        r.access_rights = 2 or
+                        r.access_rights is NULL
                     `)).rows;
             } catch (queryError) {
                 throw queryError;
