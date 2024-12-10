@@ -1,5 +1,5 @@
 import { dbPool } from "../db";
-import { facility } from "models/objects"
+import { facility, facilityID } from "models/objects"
 
 export class FacilitiesRepository {
     public readAll = async () => {
@@ -26,6 +26,33 @@ export class FacilitiesRepository {
 
         return facilities;
     };
+
+    public readByName = async (name: string) => {
+        let id: facilityID;
+
+        try {
+            const client = await dbPool.connect();
+            try {
+                id = (await client.query(`
+                    SELECT facility_id
+                    FROM facilities
+                    WHERE name = $1
+                    `, [name])).rows[0];
+            } catch (queryError) {
+                throw queryError;
+            } finally {
+                client.release();
+            }
+        } catch (connError) {
+            throw connError;
+        }
+
+        if (id === undefined) {
+            return null;
+        } else {
+            return id.facility_id;
+        }
+    }
 
     public writeFacility = async (facility: facility) => {
         try {

@@ -34,22 +34,24 @@ export class CompositionRoot {
         const authRouter = new AuthRouter(authService, authValid);
 
         const userRepo = new UserRepository;
+        const dataRepo = new DataRepository;
+        const alertsRepo = new AlertsRepository;
+        const brigadesRepo = new BrigadeRepository;
+        const facilitiesRepo = new FacilitiesRepository;
+
+
         const userService = new UserService(userRepo);
         const userRouter = new UserRouter(userService, authValid);
 
-        const dataRepo = new DataRepository;
         const dataService = new DataService(dataRepo);
         const dataRouter = new DataRouter(dataService, authValid, dataValid);
 
-        const alertsRepo = new AlertsRepository;
         const alertsService = new AlertsService(alertsRepo);
         const alertsRouter = new AlertsRouter(alertsService, alertsRepo, authValid);
 
-        const brigadesRepo = new BrigadeRepository;
-        const brigadesService = new BrigadesService(brigadesRepo);
-        const brigadesRouter = new BrigadesRouter(brigadesService, authValid);
+        const brigadesService = new BrigadesService(brigadesRepo, facilitiesRepo);
+        const brigadesRouter = new BrigadesRouter(brigadesService, authValid, dataValid);
 
-        const facilitiesRepo = new FacilitiesRepository;
         const facilitiesService = new FacilitiesService(facilitiesRepo);
         const facilitiesRouter = new FacilitiesRouter(facilitiesService, authValid, dataValid);
 

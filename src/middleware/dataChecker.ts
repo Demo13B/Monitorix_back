@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { facility } from "models/objects";
+import { brigadeInput, facility } from "models/objects";
 
 export class DataValidator {
     public idCheck = async (req: Request, res: Response, next: NextFunction) => {
@@ -12,6 +12,11 @@ export class DataValidator {
     };
 
     public facilityCheck = async (req: Request, res: Response, next: NextFunction) => {
+        if (!req.body.facility) {
+            res.sendStatus(400);
+            return;
+        }
+
         let fac = req.body.facility as facility;
 
         if (!fac.name ||
@@ -23,5 +28,23 @@ export class DataValidator {
         }
 
         next();
-    }
+    };
+
+    public brigadeCheck = async (req: Request, res: Response, next: NextFunction) => {
+        if (!req.body.brigade) {
+            res.sendStatus(400);
+            return;
+        }
+
+        let brig: brigadeInput = req.body.brigade as brigadeInput;
+
+        if (!brig.name ||
+            !brig.facility_name
+        ) {
+            res.sendStatus(400);
+            return;
+        }
+
+        next();
+    };
 };

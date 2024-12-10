@@ -68,3 +68,17 @@ export type facilityStat = {
     yellow: number,
     red: number
 };
+
+export type facilityID = {
+    facility_id: number
+}
+
+export type brigadeInput = {
+    name: string,
+    facility_name: string
+}
+
+export type brigadeDB = {
+    name: string,
+    facility_id: number
+}
