@@ -71,14 +71,19 @@ export type facilityStat = {
 
 export type facilityID = {
     facility_id: number
-}
+};
 
 export type brigadeInput = {
     name: string,
     facility_name: string
-}
+};
 
 export type brigadeDB = {
     name: string,
     facility_id: number
-}
+};
+
+export type tracker = {
+    mac_address: string,
+    description: string
+};

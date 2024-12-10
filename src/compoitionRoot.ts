@@ -20,6 +20,9 @@ import { BrigadesRouter } from "./routers/brigades";
 import { FacilitiesRepository } from "./repository/facilities";
 import { FacilitiesService } from "./service/facilities";
 import { FacilitiesRouter } from "./routers/facilities";
+import { TrackerRepository } from "./repository/trackers";
+import { TrackerService } from "./service/trackers";
+import { TrackerRouter } from "./routers/trackers";
 
 export class CompositionRoot {
     private readonly _app: App;
@@ -38,27 +41,29 @@ export class CompositionRoot {
         const alertsRepo = new AlertsRepository;
         const brigadesRepo = new BrigadeRepository;
         const facilitiesRepo = new FacilitiesRepository;
+        const trackerRepo = new TrackerRepository;
 
 
         const userService = new UserService(userRepo);
-        const userRouter = new UserRouter(userService, authValid);
-
         const dataService = new DataService(dataRepo);
-        const dataRouter = new DataRouter(dataService, authValid, dataValid);
-
         const alertsService = new AlertsService(alertsRepo);
-        const alertsRouter = new AlertsRouter(alertsService, alertsRepo, authValid);
-
         const brigadesService = new BrigadesService(brigadesRepo, facilitiesRepo);
-        const brigadesRouter = new BrigadesRouter(brigadesService, authValid, dataValid);
-
         const facilitiesService = new FacilitiesService(facilitiesRepo);
+        const trackerService = new TrackerService(trackerRepo);
+
+
+        const userRouter = new UserRouter(userService, authValid);
+        const dataRouter = new DataRouter(dataService, authValid, dataValid);
+        const alertsRouter = new AlertsRouter(alertsService, alertsRepo, authValid);
+        const brigadesRouter = new BrigadesRouter(brigadesService, authValid, dataValid);
         const facilitiesRouter = new FacilitiesRouter(facilitiesService, authValid, dataValid);
+        const trackerRouter = new TrackerRouter(trackerService, authValid, dataValid);
 
 
         this._app = new App(
             authRouter, userRouter, dataRouter,
-            alertsRouter, brigadesRouter, facilitiesRouter
+            alertsRouter, brigadesRouter, facilitiesRouter,
+            trackerRouter
         );
     }
 

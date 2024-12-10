@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { brigadeInput, facility } from "models/objects";
+import { brigadeInput, facility, tracker } from "models/objects";
 
 export class DataValidator {
     public idCheck = async (req: Request, res: Response, next: NextFunction) => {
@@ -40,6 +40,24 @@ export class DataValidator {
 
         if (!brig.name ||
             !brig.facility_name
+        ) {
+            res.sendStatus(400);
+            return;
+        }
+
+        next();
+    };
+
+    public trackerCheck = async (req: Request, res: Response, next: NextFunction) => {
+        if (!req.body.tracker) {
+            res.sendStatus(400);
+            return;
+        }
+
+        let tracker: tracker = req.body.tracker as tracker;
+
+        if (!tracker.mac_address ||
+            !tracker.description
         ) {
             res.sendStatus(400);
             return;
