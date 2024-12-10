@@ -87,3 +87,42 @@ export type tracker = {
     mac_address: string,
     description: string
 };
+
+export type roleID = {
+    role_id: number
+};
+
+export type brigadeID = {
+    brigade_id: number
+};
+
+export type trackerID = {
+    tracker_id: number
+}
+
+export type userDB = {
+    login: string,
+    password_hash: string,
+    gender: string,
+    first_name: string,
+    last_name: string,
+    phone_number: string,
+    profession: string,
+    role_id: number,
+    brigade_id?: number,
+    tracker_id?: number
+}
+
+export type userInput = {
+    login: string,
+    password: string,
+    gender: string,
+    first_name: string,
+    last_name: string,
+    phone_number: string,
+    profession: string,
+    role: string,
+    brigade: string,
+    tracker: string
+}
+

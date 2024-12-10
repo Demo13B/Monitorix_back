@@ -1,5 +1,6 @@
+import { dbPool } from "../db";
 import { Request, Response, NextFunction } from "express";
-import { brigadeInput, facility, tracker } from "models/objects";
+import { brigadeInput, facility, tracker, userInput } from "models/objects";
 
 export class DataValidator {
     public idCheck = async (req: Request, res: Response, next: NextFunction) => {
@@ -65,4 +66,69 @@ export class DataValidator {
 
         next();
     };
+
+    public userCheck = async (req: Request, res: Response, next: NextFunction) => {
+        if (!req.body.user) {
+            res.sendStatus(400);
+            return;
+        }
+
+        let user: userInput = req.body.user as userInput;
+
+        if (!user.login ||
+            !user.password ||
+            !user.gender ||
+            !user.first_name ||
+            !user.last_name ||
+            !user.phone_number ||
+            !user.profession ||
+            !user.role
+        ) {
+            res.sendStatus(400);
+            return;
+        }
+
+        if (!user.brigade) {
+            req.body.user.brigade = null;
+        }
+
+        if (!user.tracker) {
+            req.body.user.tracker = null;
+        }
+
+        next();
+    };
+
+    public loginCheck = async (req: Request, res: Response, next: NextFunction) => {
+        const login = req.body.user.login;
+        let count: number | null = 0;
+
+        try {
+            const client = await dbPool.connect();
+            try {
+                count = (await client.query(`
+                    SELECT user_id
+                    FROM users
+                    WHERE login = $1
+                    `, [login])).rowCount
+            } catch (queryError) {
+                res.sendStatus(503);
+                console.error(queryError);
+                return;
+            } finally {
+                client.release();
+            }
+        } catch (connError) {
+            res.sendStatus(503);
+            console.error(connError);
+            return;
+        }
+
+        if (count != 0) {
+            res.sendStatus(400);
+            return;
+        }
+
+        next();
+    }
 };

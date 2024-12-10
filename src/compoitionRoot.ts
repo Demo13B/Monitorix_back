@@ -44,7 +44,7 @@ export class CompositionRoot {
         const trackerRepo = new TrackerRepository;
 
 
-        const userService = new UserService(userRepo);
+        const userService = new UserService(userRepo, brigadesRepo, authRepo, trackerRepo, hasher);
         const dataService = new DataService(dataRepo);
         const alertsService = new AlertsService(alertsRepo);
         const brigadesService = new BrigadesService(brigadesRepo, facilitiesRepo);
@@ -52,7 +52,7 @@ export class CompositionRoot {
         const trackerService = new TrackerService(trackerRepo);
 
 
-        const userRouter = new UserRouter(userService, authValid);
+        const userRouter = new UserRouter(userService, authValid, dataValid);
         const dataRouter = new DataRouter(dataService, authValid, dataValid);
         const alertsRouter = new AlertsRouter(alertsService, alertsRepo, authValid);
         const brigadesRouter = new BrigadesRouter(brigadesService, authValid, dataValid);
