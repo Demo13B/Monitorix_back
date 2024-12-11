@@ -34,5 +34,31 @@ class AuthRepo {
         }
         return credentials;
     };
+    readRoleByName = async (name) => {
+        let role;
+        try {
+            const client = await db_1.dbPool.connect();
+            try {
+                role = (await client.query(`
+                    SELECT role_id
+                    FROM roles
+                    WHERE name = $1
+                    `, [name])).rows[0];
+            }
+            catch (queryError) {
+                throw queryError;
+            }
+            finally {
+                client.release();
+            }
+        }
+        catch (connError) {
+            throw connError;
+        }
+        if (role === undefined) {
+            return null;
+        }
+        return role.role_id;
+    };
 }
 exports.AuthRepo = AuthRepo;

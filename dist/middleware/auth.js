@@ -14,6 +14,13 @@ class AuthValidation {
         }
         next();
     };
+    adminCheck = async (req, res, next) => {
+        if (req.body.access_rights != 3) {
+            res.sendStatus(401);
+            return;
+        }
+        next();
+    };
     authValid = async (req, res, next) => {
         const user = req.body.username;
         const password = req.body.password;

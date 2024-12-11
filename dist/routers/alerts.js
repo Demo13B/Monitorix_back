@@ -21,6 +21,42 @@ class AlertsRouter {
             }
             res.status(200).json(result);
         });
+        this._router.get('/stats/users', auth.userPassCheck, auth.authValid, auth.adminCheck, async (req, res) => {
+            let result;
+            try {
+                result = await service.findStats(1);
+            }
+            catch (error) {
+                res.sendStatus(503);
+                console.error(error);
+                return;
+            }
+            res.status(200).json(result);
+        });
+        this._router.get('/stats/brigades', auth.userPassCheck, auth.authValid, auth.adminCheck, async (req, res) => {
+            let result;
+            try {
+                result = await service.findStats(2);
+            }
+            catch (error) {
+                res.sendStatus(503);
+                console.error(error);
+                return;
+            }
+            res.status(200).json(result);
+        });
+        this._router.get('/stats/facilities', auth.userPassCheck, auth.authValid, auth.adminCheck, async (req, res) => {
+            let result;
+            try {
+                result = await service.findStats(3);
+            }
+            catch (error) {
+                res.sendStatus(503);
+                console.error(error);
+                return;
+            }
+            res.status(200).json(result);
+        });
     }
     ;
     get_internal = () => {

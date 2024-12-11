@@ -4,7 +4,7 @@ exports.DataRouter = void 0;
 const express_1 = require("express");
 class DataRouter {
     _router;
-    constructor(service, auth, data) {
+    constructor(service, auth, data, check) {
         this._router = (0, express_1.Router)();
         this._router.get('/', auth.userPassCheck, auth.authValid, async (req, res) => {
             const user_id = req.body.user_id;
@@ -36,6 +36,22 @@ class DataRouter {
                 return;
             }
             res.status(200).json(result);
+        });
+        this._router.post('/', auth.userPassCheck, auth.authValid, auth.adminCheck, check.dataCheck, async (req, res) => {
+            let status;
+            try {
+                status = await service.insertData(req.body.data);
+            }
+            catch (error) {
+                res.sendStatus(503);
+                console.error(error);
+                return;
+            }
+            if (status) {
+                res.sendStatus(201);
+                return;
+            }
+            res.sendStatus(400);
         });
     }
     ;

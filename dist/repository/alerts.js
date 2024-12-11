@@ -107,6 +107,99 @@ class AlertsRepository {
         }
         return alerts;
     };
+    readStatsByUser = async () => {
+        let stats;
+        try {
+            const client = await db_1.dbPool.connect();
+            try {
+                stats = (await client.query(`
+                    SELECT
+                        login,
+                        count(type) filter (WHERE type = 1) as yellow,
+                        count(type) filter (WHERE type = 2) as red
+                    FROM users
+                        JOIN alerts
+                        USING (tracker_id)
+                    GROUP BY user_id
+                    ORDER BY user_id
+                    `)).rows;
+            }
+            catch (queryError) {
+                throw queryError;
+            }
+            finally {
+                client.release();
+            }
+        }
+        catch (connError) {
+            throw connError;
+        }
+        return stats;
+    };
+    readStatsByBrigade = async () => {
+        let stats;
+        try {
+            const client = await db_1.dbPool.connect();
+            try {
+                stats = (await client.query(`
+                    SELECT
+                        max(b.name) as name,
+                        count(type) filter (WHERE type = 1) as yellow,
+                        count(type) filter (WHERE type = 2) as red
+                    FROM users
+                        JOIN alerts
+                        USING (tracker_id)
+                        JOIN brigades b 
+                        USING (brigade_id)
+                    GROUP BY brigade_id
+                    ORDER BY brigade_id
+                    `)).rows;
+            }
+            catch (queryError) {
+                throw queryError;
+            }
+            finally {
+                client.release();
+            }
+        }
+        catch (connError) {
+            throw connError;
+        }
+        return stats;
+    };
+    readStatsByFacility = async () => {
+        let stats;
+        try {
+            const client = await db_1.dbPool.connect();
+            try {
+                stats = (await client.query(`
+                    SELECT
+                        max(f.name) as name,
+                        count(type) filter (WHERE type = 1) as yellow,
+                        count(type) filter (WHERE type = 2) as red
+                    FROM users
+                        JOIN alerts
+                        USING (tracker_id)
+                        JOIN brigades b 
+                        USING (brigade_id)
+                        JOIN facilities f
+                        USING (facility_id)
+                    GROUP BY facility_id
+                    ORDER BY facility_id
+                    `)).rows;
+            }
+            catch (queryError) {
+                throw queryError;
+            }
+            finally {
+                client.release();
+            }
+        }
+        catch (connError) {
+            throw connError;
+        }
+        return stats;
+    };
 }
 exports.AlertsRepository = AlertsRepository;
 ;

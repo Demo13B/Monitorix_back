@@ -178,6 +178,65 @@ class DataRepository {
         }
         return data;
     };
+    writeData = async (data) => {
+        try {
+            const client = await db_1.dbPool.connect();
+            try {
+                await client.query(`
+                    INSERT INTO "tracker_data" (
+                        "tracker_id",
+                        "air_pressure",
+                        "pulse",
+                        "latitude",
+                        "longitude",
+                        "temperature",
+                        "humidity",
+                        "charge",
+                        "activity",
+                        "fall",
+                        "analyzer_alarm",
+                        "time"
+                    )
+                    VALUES (
+                        $1,
+                        $2,
+                        $3,
+                        $4,
+                        $5,
+                        $6,
+                        $7,
+                        $8,
+                        $9,
+                        $10,
+                        $11,
+                        $12
+                    )
+                    `, [
+                    data.tracker_id,
+                    data.air_pressure,
+                    data.pulse,
+                    data.latitude,
+                    data.longitude,
+                    data.temperature,
+                    data.humidity,
+                    data.charge,
+                    data.activity,
+                    data.fall,
+                    data.analyzer_alarm,
+                    data.time
+                ]);
+            }
+            catch (queryError) {
+                throw queryError;
+            }
+            finally {
+                client.release();
+            }
+        }
+        catch (connError) {
+            throw connError;
+        }
+    };
 }
 exports.DataRepository = DataRepository;
 ;

@@ -17,6 +17,15 @@ const dataChecker_1 = require("./middleware/dataChecker");
 const alerts_1 = require("./repository/alerts");
 const alerts_2 = require("./service/alerts");
 const alerts_3 = require("./routers/alerts");
+const brigades_1 = require("./repository/brigades");
+const brigades_2 = require("./service/brigades");
+const brigades_3 = require("./routers/brigades");
+const facilities_1 = require("./repository/facilities");
+const facilities_2 = require("./service/facilities");
+const facilities_3 = require("./routers/facilities");
+const trackers_1 = require("./repository/trackers");
+const trackers_2 = require("./service/trackers");
+const trackers_3 = require("./routers/trackers");
 class CompositionRoot {
     _app;
     constructor() {
@@ -27,15 +36,24 @@ class CompositionRoot {
         const authValid = new auth_3.AuthValidation(authService);
         const authRouter = new auth_1.AuthRouter(authService, authValid);
         const userRepo = new users_1.UserRepository;
-        const userService = new users_2.UserService(userRepo);
-        const userRouter = new users_3.UserRouter(userService, authValid);
         const dataRepo = new data_1.DataRepository;
-        const dataService = new data_2.DataService(dataRepo);
-        const dataRouter = new data_3.DataRouter(dataService, authValid, dataValid);
         const alertsRepo = new alerts_1.AlertsRepository;
+        const brigadesRepo = new brigades_1.BrigadeRepository;
+        const facilitiesRepo = new facilities_1.FacilitiesRepository;
+        const trackerRepo = new trackers_1.TrackerRepository;
+        const userService = new users_2.UserService(userRepo, brigadesRepo, authRepo, trackerRepo, hasher);
+        const dataService = new data_2.DataService(dataRepo, trackerRepo);
         const alertsService = new alerts_2.AlertsService(alertsRepo);
+        const brigadesService = new brigades_2.BrigadesService(brigadesRepo, facilitiesRepo);
+        const facilitiesService = new facilities_2.FacilitiesService(facilitiesRepo);
+        const trackerService = new trackers_2.TrackerService(trackerRepo);
+        const userRouter = new users_3.UserRouter(userService, authValid, dataValid);
+        const dataRouter = new data_3.DataRouter(dataService, authValid, dataValid, dataValid);
         const alertsRouter = new alerts_3.AlertsRouter(alertsService, alertsRepo, authValid);
-        this._app = new app_1.App(authRouter, userRouter, dataRouter, alertsRouter);
+        const brigadesRouter = new brigades_3.BrigadesRouter(brigadesService, authValid, dataValid);
+        const facilitiesRouter = new facilities_3.FacilitiesRouter(facilitiesService, authValid, dataValid);
+        const trackerRouter = new trackers_3.TrackerRouter(trackerService, authValid, dataValid);
+        this._app = new app_1.App(authRouter, userRouter, dataRouter, alertsRouter, brigadesRouter, facilitiesRouter, trackerRouter);
     }
     app = () => {
         return this._app;

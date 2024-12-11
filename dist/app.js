@@ -7,7 +7,7 @@ exports.App = void 0;
 const express_1 = __importDefault(require("express"));
 class App {
     _app;
-    constructor(authRouter, userRouter, dataRouter, alertsRouter) {
+    constructor(authRouter, userRouter, dataRouter, alertsRouter, brigadesRouter, facilitiesRouter, trackersRouter) {
         this._app = (0, express_1.default)();
         const bodyParser = express_1.default.json();
         this._app.use(bodyParser);
@@ -15,6 +15,9 @@ class App {
         this._app.use('/api/users', userRouter.get_internal());
         this._app.use('/api/data', dataRouter.get_internal());
         this._app.use('/api/alerts', alertsRouter.get_internal());
+        this._app.use('/api/brigades', brigadesRouter.get_internal());
+        this._app.use('/api/facilities', facilitiesRouter.get_internal());
+        this._app.use('/api/trackers', trackersRouter.get_internal());
     }
     ;
     express_app = () => {

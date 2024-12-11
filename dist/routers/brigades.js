@@ -1,18 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UserRouter = void 0;
+exports.BrigadesRouter = void 0;
 const express_1 = require("express");
-class UserRouter {
+class BrigadesRouter {
     _router;
     constructor(service, auth, check) {
         this._router = (0, express_1.Router)();
-        this._router.get('/', auth.userPassCheck, auth.authValid, async (req, res) => {
-            const user_id = req.body.user_id;
-            const ar = req.body.access_rights;
-            const brigade_id = req.body.brigade_id;
-            let result = null;
+        this._router.get('/', auth.userPassCheck, auth.authValid, auth.adminCheck, async (req, res) => {
+            let result;
             try {
-                result = await service.findUsers(user_id, brigade_id, ar);
+                result = await service.findBrigades();
             }
             catch (error) {
                 res.sendStatus(503);
@@ -21,14 +18,15 @@ class UserRouter {
             }
             res.status(200).json(result);
         });
-        this._router.post('/', auth.userPassCheck, auth.authValid, auth.adminCheck, check.userCheck, check.loginCheck, async (req, res) => {
+        this._router.post('/', auth.userPassCheck, auth.authValid, auth.adminCheck, check.brigadeCheck, async (req, res) => {
+            const brig = req.body.brigade;
             let status;
             try {
-                status = await service.insert(req.body.user);
+                status = await service.insert(brig);
             }
             catch (error) {
                 res.sendStatus(503);
-                console.log(error);
+                console.error(error);
                 return;
             }
             if (status) {
@@ -43,5 +41,5 @@ class UserRouter {
         return this._router;
     };
 }
-exports.UserRouter = UserRouter;
+exports.BrigadesRouter = BrigadesRouter;
 ;
