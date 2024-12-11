@@ -1,3 +1,4 @@
+import { roleID } from "models/objects";
 import { dbPool } from "../db";
 import { credentials } from "../models/auth";
 
@@ -29,5 +30,32 @@ export class AuthRepo {
             throw connError;
         }
         return credentials;
+    };
+
+    public readRoleByName = async (name: string) => {
+        let role: roleID
+
+        try {
+            const client = await dbPool.connect();
+            try {
+                role = (await client.query(`
+                    SELECT role_id
+                    FROM roles
+                    WHERE name = $1
+                    `, [name])).rows[0];
+            } catch (queryError) {
+                throw queryError;
+            } finally {
+                client.release();
+            }
+        } catch (connError) {
+            throw connError;
+        }
+
+        if (role === undefined) {
+            return null;
+        }
+
+        return role.role_id;
     };
 }

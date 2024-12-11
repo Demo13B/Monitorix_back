@@ -1,4 +1,4 @@
-import { user } from "../models/objects";
+import { user, userDB } from "../models/objects";
 import { dbPool } from "../db";
 
 export class UserRepository {
@@ -123,5 +123,56 @@ export class UserRepository {
         }
 
         return users;
+    };
+
+    public writeUser = async (user: userDB) => {
+        try {
+            const client = await dbPool.connect();
+            try {
+                await client.query(`
+                    INSERT INTO "users" (
+                        "login",
+                        "password_hash",
+                        "gender",
+                        "first_name",
+                        "last_name",
+                        "phone_number",
+                        "profession",
+                        "role_id",
+                        "brigade_id",
+                        "tracker_id"
+                    )
+                    VALUES (
+                        $1,
+                        $2,
+                        $3,
+                        $4,
+                        $5,
+                        $6,
+                        $7,
+                        $8,
+                        $9,
+                        $10
+                    )
+                    `, [
+                    user.login,
+                    user.password_hash,
+                    user.gender,
+                    user.first_name,
+                    user.last_name,
+                    user.phone_number,
+                    user.profession,
+                    user.role_id,
+                    user.brigade_id,
+                    user.tracker_id
+                ])
+            } catch (queryError) {
+                throw queryError;
+            } finally {
+                client.release();
+            }
+        } catch (connError) {
+            throw connError;
+        }
     };
 };

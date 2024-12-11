@@ -14,6 +14,15 @@ import { DataValidator } from "./middleware/dataChecker";
 import { AlertsRepository } from "./repository/alerts";
 import { AlertsService } from "./service/alerts";
 import { AlertsRouter } from "./routers/alerts";
+import { BrigadeRepository } from "./repository/brigades";
+import { BrigadesService } from "./service/brigades";
+import { BrigadesRouter } from "./routers/brigades";
+import { FacilitiesRepository } from "./repository/facilities";
+import { FacilitiesService } from "./service/facilities";
+import { FacilitiesRouter } from "./routers/facilities";
+import { TrackerRepository } from "./repository/trackers";
+import { TrackerService } from "./service/trackers";
+import { TrackerRouter } from "./routers/trackers";
 
 export class CompositionRoot {
     private readonly _app: App;
@@ -28,18 +37,34 @@ export class CompositionRoot {
         const authRouter = new AuthRouter(authService, authValid);
 
         const userRepo = new UserRepository;
-        const userService = new UserService(userRepo);
-        const userRouter = new UserRouter(userService, authValid);
-
         const dataRepo = new DataRepository;
-        const dataService = new DataService(dataRepo);
-        const dataRouter = new DataRouter(dataService, authValid, dataValid);
-
         const alertsRepo = new AlertsRepository;
-        const alertsService = new AlertsService(alertsRepo);
-        const alertsRouter = new AlertsRouter(alertsService, alertsRepo, authValid);
+        const brigadesRepo = new BrigadeRepository;
+        const facilitiesRepo = new FacilitiesRepository;
+        const trackerRepo = new TrackerRepository;
 
-        this._app = new App(authRouter, userRouter, dataRouter, alertsRouter);
+
+        const userService = new UserService(userRepo, brigadesRepo, authRepo, trackerRepo, hasher);
+        const dataService = new DataService(dataRepo, trackerRepo);
+        const alertsService = new AlertsService(alertsRepo);
+        const brigadesService = new BrigadesService(brigadesRepo, facilitiesRepo);
+        const facilitiesService = new FacilitiesService(facilitiesRepo);
+        const trackerService = new TrackerService(trackerRepo);
+
+
+        const userRouter = new UserRouter(userService, authValid, dataValid);
+        const dataRouter = new DataRouter(dataService, authValid, dataValid, dataValid);
+        const alertsRouter = new AlertsRouter(alertsService, alertsRepo, authValid);
+        const brigadesRouter = new BrigadesRouter(brigadesService, authValid, dataValid);
+        const facilitiesRouter = new FacilitiesRouter(facilitiesService, authValid, dataValid);
+        const trackerRouter = new TrackerRouter(trackerService, authValid, dataValid);
+
+
+        this._app = new App(
+            authRouter, userRouter, dataRouter,
+            alertsRouter, brigadesRouter, facilitiesRouter,
+            trackerRouter
+        );
     }
 
     app = () => {

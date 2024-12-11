@@ -7,7 +7,7 @@ import { DataService } from "service/data";
 export class DataRouter {
     private readonly _router: Router;
 
-    constructor(service: DataService, auth: AuthValidation, data: DataValidator) {
+    constructor(service: DataService, auth: AuthValidation, data: DataValidator, check: DataValidator) {
         this._router = Router();
 
         this._router.get('/', auth.userPassCheck, auth.authValid, async (req: Request, res: Response) => {
@@ -48,6 +48,31 @@ export class DataRouter {
                 }
 
                 res.status(200).json(result);
+            }
+        );
+
+        this._router.post('/',
+            auth.userPassCheck,
+            auth.authValid,
+            auth.adminCheck,
+            check.dataCheck,
+            async (req: Request, res: Response) => {
+                let status: boolean;
+
+                try {
+                    status = await service.insertData(req.body.data);
+                } catch (error) {
+                    res.sendStatus(503);
+                    console.error(error);
+                    return;
+                }
+
+                if (status) {
+                    res.sendStatus(201);
+                    return;
+                }
+
+                res.sendStatus(400);
             }
         );
     };

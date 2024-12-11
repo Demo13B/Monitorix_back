@@ -15,7 +15,16 @@ export class AuthValidation {
             return;
         }
         next();
-    }
+    };
+
+    public adminCheck = async (req: Request, res: Response, next: NextFunction) => {
+        if (req.body.access_rights != 3) {
+            res.sendStatus(401);
+            return;
+        }
+
+        next();
+    };
 
     public authValid = async (req: Request, res: Response, next: NextFunction) => {
         const user: string = req.body.username;

@@ -40,4 +40,19 @@ export class AlertsService {
 
         return null;
     };
+
+    public findStats = async (code: number) => {
+        try {
+            if (code === 1)
+                return await this._repo.readStatsByUser();
+
+            if (code === 2)
+                return await this._repo.readStatsByBrigade();
+
+            if (code === 3)
+                return await this._repo.readStatsByFacility();
+        } catch (error) {
+            throw error;
+        }
+    };
 };
