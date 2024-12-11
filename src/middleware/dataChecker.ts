@@ -1,6 +1,6 @@
 import { dbPool } from "../db";
 import { Request, Response, NextFunction } from "express";
-import { brigadeInput, facility, tracker, userInput } from "models/objects";
+import { brigadeInput, dataInput, facility, tracker, userInput } from "models/objects";
 
 export class DataValidator {
     public idCheck = async (req: Request, res: Response, next: NextFunction) => {
@@ -130,5 +130,33 @@ export class DataValidator {
         }
 
         next();
-    }
+    };
+
+    public dataCheck = async (req: Request, res: Response, next: NextFunction) => {
+        if (!req.body.data) {
+            res.sendStatus(400);
+            return;
+        }
+
+        const data = req.body.data as dataInput;
+
+        if (!data.mac_address ||
+            !data.air_pressure ||
+            !data.analyzer_alarm ||
+            !data.charge ||
+            !data.fall ||
+            !data.humidity ||
+            !data.latitude ||
+            !data.longitude ||
+            !data.activity ||
+            !data.pulse ||
+            !data.temperature ||
+            !data.time
+        ) {
+            res.sendStatus(400);
+            return;
+        }
+
+        next();
+    };
 };

@@ -98,7 +98,7 @@ export type brigadeID = {
 
 export type trackerID = {
     tracker_id: number
-}
+};
 
 export type userDB = {
     login: string,
@@ -111,7 +111,7 @@ export type userDB = {
     role_id: number,
     brigade_id?: number,
     tracker_id?: number
-}
+};
 
 export type userInput = {
     login: string,
@@ -124,5 +124,36 @@ export type userInput = {
     role: string,
     brigade: string,
     tracker: string
-}
+};
+
+export type dataInput = {
+    mac_address: string,
+    air_pressure: number,
+    pulse: number,
+    latitude: number,
+    longitude: number,
+    temperature: number,
+    humidity: number,
+    charge: number,
+    activity: boolean,
+    fall: boolean,
+    analyzer_alarm: boolean,
+    time: string
+};
+
+export type dataDB = {
+    tracker_id: number,
+    air_pressure: number,
+    pulse: number,
+    latitude: number,
+    longitude: number,
+    temperature: number,
+    humidity: number,
+    charge: number,
+    activity: boolean,
+    fall: boolean,
+    analyzer_alarm: boolean,
+    time: string
+};
+
 
