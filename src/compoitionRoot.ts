@@ -54,7 +54,7 @@ export class CompositionRoot {
 
         const userRouter = new UserRouter(userService, authValid, dataValid);
         const dataRouter = new DataRouter(dataService, authValid, dataValid, dataValid);
-        const alertsRouter = new AlertsRouter(alertsService, alertsRepo, authValid);
+        const alertsRouter = new AlertsRouter(alertsService, alertsRepo, authValid, dataValid);
         const brigadesRouter = new BrigadesRouter(brigadesService, authValid, dataValid);
         const facilitiesRouter = new FacilitiesRouter(facilitiesService, authValid, dataValid);
         const trackerRouter = new TrackerRouter(trackerService, authValid, dataValid);
