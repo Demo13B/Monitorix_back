@@ -176,5 +176,14 @@ export class DataValidator {
         }
 
         next();
-    }
+    };
+
+    public deleteMacCheck = async (req: Request, res: Response, next: NextFunction) => {
+        if (!req.body.mac) {
+            res.sendStatus(400);
+            return;
+        }
+
+        next();
+    };
 };

@@ -113,18 +113,18 @@ EXECUTE FUNCTION generate_pressure_alert();
 CREATE OR REPLACE FUNCTION generate_pulse_alert() 
 RETURNS TRIGGER AS $$
 BEGIN
-    IF new.air_pressure <= 50 THEN
+    IF new.pulse <= 50 THEN
         INSERT INTO "alerts" ("tracker_id", "type", "message", "time")
         VALUES (new.tracker_id, 2, 'The pulse is dangerously low!', new.time);
-    ELSIF new.air_pressure <= 60 THEN
+    ELSIF new.pulse <= 60 THEN
         INSERT INTO "alerts" ("tracker_id", "type", "message", "time")
         VALUES (new.tracker_id, 1, 'The pulse is below normal limit', new.time);
     END IF;
 
-    IF new.air_pressure >= 150 THEN
+    IF new.pulse >= 150 THEN
         INSERT INTO "alerts" ("tracker_id", "type", "message", "time")
         VALUES (new.tracker_id, 2, 'The pulse is dangerously high!', new.time);
-    ELSIF new.air_pressure >= 120 THEN
+    ELSIF new.pulse >= 120 THEN
         INSERT INTO "alerts" ("tracker_id", "type", "message", "time")
         VALUES (new.tracker_id, 1, 'The pulse is above normal limit', new.time);
     END IF;
@@ -144,18 +144,18 @@ EXECUTE FUNCTION generate_pulse_alert();
 CREATE OR REPLACE FUNCTION generate_temperature_alert() 
 RETURNS TRIGGER AS $$
 BEGIN
-    IF new.air_pressure <= -10 THEN
+    IF new.temperature <= -10 THEN
         INSERT INTO "alerts" ("tracker_id", "type", "message", "time")
         VALUES (new.tracker_id, 2, 'The temperature is dangerously low!', new.time);
-    ELSIF new.air_pressure <= 0 THEN
+    ELSIF new.temperature <= 0 THEN
         INSERT INTO "alerts" ("tracker_id", "type", "message", "time")
         VALUES (new.tracker_id, 1, 'The temperature is below normal limit', new.time);
     END IF;
 
-    IF new.air_pressure >= 25 THEN
+    IF new.temperature >= 25 THEN
         INSERT INTO "alerts" ("tracker_id", "type", "message", "time")
         VALUES (new.tracker_id, 2, 'The ambient temperature is dangerously high!', new.time);
-    ELSIF new.air_pressure >= 35 THEN
+    ELSIF new.temperature >= 35 THEN
         INSERT INTO "alerts" ("tracker_id", "type", "message", "time")
         VALUES (new.tracker_id, 1, 'The ambient temperature is above normal limit', new.time);
     END IF;
@@ -175,18 +175,18 @@ EXECUTE FUNCTION generate_temperature_alert();
 CREATE OR REPLACE FUNCTION generate_humidity_alert() 
 RETURNS TRIGGER AS $$
 BEGIN
-    IF new.air_pressure <= 30 THEN
+    IF new.humidity <= 30 THEN
         INSERT INTO "alerts" ("tracker_id", "type", "message", "time")
         VALUES (new.tracker_id, 2, 'The humidity is dangerously low!', new.time);
-    ELSIF new.air_pressure <= 40 THEN
+    ELSIF new.humidity <= 40 THEN
         INSERT INTO "alerts" ("tracker_id", "type", "message", "time")
         VALUES (new.tracker_id, 1, 'The humidity is below normal limit', new.time);
     END IF;
 
-    IF new.air_pressure >= 80 THEN
+    IF new.humidity >= 80 THEN
         INSERT INTO "alerts" ("tracker_id", "type", "message", "time")
         VALUES (new.tracker_id, 2, 'The humidity is dangerously high!', new.time);
-    ELSIF new.air_pressure >= 70 THEN
+    ELSIF new.humidity >= 70 THEN
         INSERT INTO "alerts" ("tracker_id", "type", "message", "time")
         VALUES (new.tracker_id, 1, 'The humidity is above normal limit', new.time);
     END IF;

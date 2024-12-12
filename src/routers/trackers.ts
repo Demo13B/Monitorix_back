@@ -30,6 +30,31 @@ export class TrackerRouter {
                 res.sendStatus(201);
             }
         );
+
+        this._router.delete('/',
+            auth.userPassCheck,
+            auth.authValid,
+            auth.adminCheck,
+            check.deleteMacCheck,
+            async (req: Request, res: Response) => {
+                let status: boolean;
+
+                try {
+                    status = await service.remove(req.body.mac);
+                } catch (error) {
+                    res.sendStatus(503);
+                    console.error(error);
+                    return;
+                }
+
+                if (!status) {
+                    res.sendStatus(400);
+                    return;
+                }
+
+                res.sendStatus(200);
+            }
+        );
     };
 
     public get_internal = () => {

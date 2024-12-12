@@ -14,5 +14,17 @@ export class TrackerService {
         } catch (error) {
             throw error;
         }
-    }
+    };
+
+    public remove = async (mac: string) => {
+        let status: boolean;
+
+        try {
+            status = await this._repo.deleteTracker(mac);
+        } catch (error) {
+            throw error;
+        }
+
+        return status;
+    };
 };
