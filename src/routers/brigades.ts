@@ -53,6 +53,30 @@ export class BrigadesRouter {
                 res.sendStatus(400);
             }
         );
+
+        this._router.delete('/',
+            auth.userPassCheck,
+            auth.authValid,
+            auth.adminCheck,
+            check.deleteNameCheck,
+            async (req: Request, res: Response) => {
+                let status: boolean;
+
+                try {
+                    status = await service.removeBrigade(req.body.name);
+                } catch (error) {
+                    res.sendStatus(503);
+                    return;
+                }
+
+                if (!status) {
+                    res.sendStatus(400);
+                    return;
+                }
+
+                res.sendStatus(200);
+            }
+        );
     };
 
     public get_internal = () => {

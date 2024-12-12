@@ -168,4 +168,13 @@ export class DataValidator {
 
         next();
     };
+
+    public deleteNameCheck = async (req: Request, res: Response, next: NextFunction) => {
+        if (!req.body.name) {
+            res.sendStatus(400);
+            return;
+        }
+
+        next();
+    }
 };

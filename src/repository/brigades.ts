@@ -23,8 +23,7 @@ export class BrigadeRepository {
                         LEFT JOIN facilities f
                         USING (facility_id)
                     WHERE 
-                        r.access_rights = 2 or
-                        r.access_rights is NULL
+                        r.access_rights = 2
                     `)).rows;
             } catch (queryError) {
                 throw queryError;
@@ -90,5 +89,31 @@ export class BrigadeRepository {
         } catch (connError) {
             throw connError;
         }
-    }
+    };
+
+    public deleteBrigade = async (name: string) => {
+        let deleted: number | null;
+
+        try {
+            const client = await dbPool.connect();
+            try {
+                deleted = (await client.query(`
+                    DELETE FROM brigades
+                    WHERE name = $1
+                    `, [name])).rowCount;
+            } catch (queryError) {
+                throw queryError;
+            } finally {
+                client.release();
+            }
+        } catch (connError) {
+            throw connError;
+        }
+
+        if (!deleted) {
+            return false;
+        }
+
+        return true;
+    };
 };
