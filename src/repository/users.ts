@@ -175,4 +175,29 @@ export class UserRepository {
             throw connError;
         }
     };
+
+    public deleteUserByLogin = async (login: string) => {
+        let result: number | null;
+        try {
+            const client = await dbPool.connect();
+            try {
+                result = (await client.query(`
+                    DELETE FROM users
+                    WHERE login = $1
+                    `, [login])).rowCount;
+            } catch (queryError) {
+                throw queryError;
+            } finally {
+                client.release();
+            }
+        } catch (connError) {
+            throw connError;
+        }
+
+        if (result == 0) {
+            return false
+        } else {
+            return true;
+        }
+    };
 };

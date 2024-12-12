@@ -124,4 +124,16 @@ export class UserService {
 
         return true;
     };
+
+
+    public remove = async (login: string) => {
+        let result: boolean;
+        try {
+            result = await this._repo.deleteUserByLogin(login);
+        } catch (error) {
+            throw error;
+        }
+
+        return result;
+    }
 };

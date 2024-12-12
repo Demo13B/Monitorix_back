@@ -28,14 +28,6 @@ VALUES
     ('00:1A:2B:3C:4D:63', 'Tracker 6');
 
 -- Insert into users
--- Passwords
--- Ca4Pj
--- N4AAw
--- VKj9J
--- Wh0gZ
--- HgJ88
--- v9rC0
--- F4HNd
 INSERT INTO "users" ("login", "password_hash", "gender", "first_name", "last_name", "phone_number", "profession", "role_id", "brigade_id", "tracker_id")
 VALUES
     ('admin', '$2b$10$GTz/2xxRFYylk5Gt5SmgOOn4r85XhIX/s2.voqN2RbSYNNSAMAEcC', 'male', 'John', 'Doe', '123-456-7890', 'Administrator', 1, NULL, NULL),
@@ -72,33 +64,4 @@ VALUES
     -- Tracker 6 Data
     (6, 1013.00, 68, 34.0522, -118.2437, TRUE, FALSE, 36, 50, 85, FALSE, '2024-11-24 09:00:00'),
     (6, 920.00, 40, 34.0522, -118.2437, FALSE, TRUE, 15, 5, 3, TRUE, '2024-11-24 10:30:00');
-
-INSERT INTO "alerts" ("tracker_id", "type", "message", "time")
-VALUES
-    -- Tracker 1 Alerts
-    (1, 1, 'Low air pressure detected', '2024-11-24 08:45:00'),
-    (1, 1, 'High pulse detected', '2024-11-24 08:45:00'),
-    (1, 1, 'High temperature detected', '2024-11-24 08:45:00'),
-    (1, 2, 'Low battery', '2024-11-24 08:45:00'),
-
-    -- Tracker 2 Alerts
-    (2, 2, 'Detected a fall', '2024-11-24 08:45:00'),
-    (2, 1, 'Abnormally low temperature detected', '2024-11-24 08:45:00'),
-
-    -- Tracker 3 Alerts
-    (3, 1, 'Extremely low air pressure', '2024-11-24 08:45:00'),
-    (3, 2, 'Low battery', '2024-11-24 08:45:00'),
-
-    -- Tracker 4 Alerts
-    (4, 1, 'High pulse detected', '2024-11-24 08:45:00'),
-    (4, 2, 'Detected a fall', '2024-11-24 08:45:00'),
-
-    -- Tracker 5 Alerts
-    (5, 1, 'High pulse detected', '2024-11-24 08:45:00'),
-    (5, 1, 'High temperature detected', '2024-11-24 08:45:00'),
-
-    -- Tracker 6 Alerts
-    (6, 1, 'Low air pressure detected', '2024-11-24 08:45:00'),
-    (6, 2, 'Low battery', '2024-11-24 08:45:00'),
-    (6, 2, 'No activity', '2024-11-24 08:45:00');
 

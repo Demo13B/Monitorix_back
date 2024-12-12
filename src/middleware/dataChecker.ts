@@ -159,4 +159,13 @@ export class DataValidator {
 
         next();
     };
+
+    public deleteLoginCheck = async (req: Request, res: Response, next: NextFunction) => {
+        if (!req.body.login) {
+            res.sendStatus(400);
+            return;
+        }
+
+        next();
+    };
 };
