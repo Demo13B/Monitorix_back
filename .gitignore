@@ -2,3 +2,5 @@ node_modules
 tsconfig.json
 /.env
 passwords.txt
+fullchain.pem
+privkey.pem

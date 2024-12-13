@@ -1,4 +1,5 @@
 import { CompositionRoot } from "./compoitionRoot"
+import http from "http"
 import https from "https"
 import dotenv from "dotenv"
 import fs from "fs"

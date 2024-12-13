@@ -28,6 +28,25 @@ export class BrigadesRouter {
                 res.status(200).json(result);
             });
 
+        this._router.get('/names',
+            auth.userPassCheck,
+            auth.authValid,
+            auth.adminCheck,
+            async (req: Request, res: Response) => {
+                let result: string[];
+
+                try {
+                    result = await service.readNames();
+                } catch (error) {
+                    res.sendStatus(503);
+                    console.error(error);
+                    return;
+                }
+
+                res.status(200).send(result);
+            }
+        );
+
         this._router.post('/',
             auth.userPassCheck,
             auth.authValid,

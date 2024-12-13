@@ -156,4 +156,11 @@ export type dataDB = {
     time: string
 };
 
+export type trackerMac = {
+    mac_address: string
+};
+
+export type brigadeName = {
+    name: string
+}
 
