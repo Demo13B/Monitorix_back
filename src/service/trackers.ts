@@ -1,4 +1,4 @@
-import { tracker } from "models/objects";
+import { tracker, trackerMac } from "models/objects";
 import { TrackerRepository } from "repository/trackers";
 
 export class TrackerService {
@@ -7,6 +7,24 @@ export class TrackerService {
     constructor(repo: TrackerRepository) {
         this._repo = repo;
     };
+
+    public readNames = async () => {
+        let queryRes: trackerMac[];
+
+        try {
+            queryRes = await this._repo.readTrackerNames();
+        } catch (error) {
+            throw error;
+        }
+
+        let res: string[] = [];
+
+        for (let mac of queryRes) {
+            res.push(mac.mac_address);
+        }
+
+        return res;
+    }
 
     public insert = async (tracker: tracker) => {
         try {

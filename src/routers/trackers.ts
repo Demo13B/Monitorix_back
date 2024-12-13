@@ -13,6 +13,25 @@ export class TrackerRouter {
     ) {
         this._router = Router();
 
+        this._router.get('/',
+            auth.userPassCheck,
+            auth.authValid,
+            auth.adminCheck,
+            async (req: Request, res: Response) => {
+                let result: string[];
+
+                try {
+                    result = await service.readNames();
+                } catch (error) {
+                    res.sendStatus(503);
+                    console.log(error);
+                    return;
+                }
+
+                res.status(200).send(result);
+            }
+        )
+
         this._router.post('/',
             auth.userPassCheck,
             auth.authValid,
