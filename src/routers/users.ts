@@ -52,6 +52,30 @@ export class UserRouter {
                 res.sendStatus(400);
             }
         );
+
+        this._router.delete('/',
+            auth.userPassCheck,
+            auth.authValid,
+            auth.adminCheck,
+            check.deleteLoginCheck,
+            async (req: Request, res: Response) => {
+                let status: boolean;
+                try {
+                    status = await service.remove(req.body.login);
+                } catch (error) {
+                    res.sendStatus(503);
+                    console.error(error);
+                    return;
+                }
+
+                if (!status) {
+                    res.sendStatus(400);
+                    return;
+                }
+
+                res.sendStatus(200);
+            }
+        );
     };
 
     public get_internal = () => {

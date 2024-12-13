@@ -82,5 +82,30 @@ export class FacilitiesRepository {
         } catch (connError) {
             throw connError;
         }
-    }
+    };
+
+    public deleteFacility = async (name: string) => {
+        let deleted: number | null;
+        try {
+            const client = await dbPool.connect();
+            try {
+                deleted = (await client.query(`
+                    DELETE FROM facilities
+                    WHERE name = $1
+                    `, [name])).rowCount;
+            } catch (queryError) {
+                throw queryError;
+            } finally {
+                client.release();
+            }
+        } catch (connError) {
+            throw connError;
+        }
+
+        if (!deleted) {
+            return false;
+        }
+
+        return true;
+    };
 };

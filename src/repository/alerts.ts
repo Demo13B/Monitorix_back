@@ -195,4 +195,34 @@ export class AlertsRepository {
 
         return stats;
     };
+
+    public deleteByLogin = async (login: string) => {
+        let deleted: number | null;
+
+        try {
+            const client = await dbPool.connect();
+            try {
+                deleted = (await client.query(`
+                    DELETE FROM alerts 
+                    USING users 
+                    WHERE 
+	                    alerts.tracker_id = users.tracker_id and 
+    	                users.login = $1
+	
+                    `, [login])).rowCount;
+            } catch (queryError) {
+                throw queryError;
+            } finally {
+                client.release();
+            }
+        } catch (connError) {
+            throw connError;
+        }
+
+        if (!deleted) {
+            return false;
+        }
+
+        return true;
+    };
 };

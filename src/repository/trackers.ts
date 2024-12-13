@@ -1,3 +1,4 @@
+import { connect } from "http2";
 import { dbPool } from "../db";
 import { tracker, trackerID } from "models/objects";
 
@@ -51,5 +52,31 @@ export class TrackerRepository {
         } catch (connError) {
             throw connError;
         }
+    };
+
+    public deleteTracker = async (mac: string) => {
+        let deleted: number | null;
+
+        try {
+            const client = await dbPool.connect();
+            try {
+                deleted = (await client.query(`
+                    DELETE FROM trackers
+                    WHERE mac_address = $1
+                    `, [mac])).rowCount;
+            } catch (queryError) {
+                throw queryError;
+            } finally {
+                client.release();
+            }
+        } catch (connError) {
+            throw connError;
+        }
+
+        if (!deleted) {
+            return false;
+        }
+
+        return true;
     };
 };

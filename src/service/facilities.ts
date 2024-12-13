@@ -27,4 +27,16 @@ export class FacilitiesService {
             throw error;
         }
     }
+
+    public remove = async (name: string) => {
+        let status: boolean;
+
+        try {
+            status = await this._repo.deleteFacility(name);
+        } catch (error) {
+            throw error;
+        }
+
+        return status;
+    }
 };

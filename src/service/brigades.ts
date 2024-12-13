@@ -47,5 +47,17 @@ export class BrigadesService {
         }
 
         return true;
-    }
+    };
+
+    public removeBrigade = async (name: string) => {
+        let result: boolean;
+
+        try {
+            result = await this._repo.deleteBrigade(name)
+        } catch (error) {
+            throw error;
+        }
+
+        return result;
+    };
 };

@@ -55,4 +55,16 @@ export class AlertsService {
             throw error;
         }
     };
+
+    public remove = async (login: string) => {
+        let status: boolean;
+
+        try {
+            status = await this._repo.deleteByLogin(login);
+        } catch (error) {
+            throw error;
+        }
+
+        return status;
+    }
 };
