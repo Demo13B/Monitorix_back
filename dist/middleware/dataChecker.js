@@ -115,16 +115,16 @@ class DataValidator {
         const data = req.body.data;
         if (!data.mac_address ||
             !data.air_pressure ||
-            !data.analyzer_alarm ||
             !data.charge ||
-            !data.fall ||
             !data.humidity ||
             !data.latitude ||
             !data.longitude ||
-            !data.activity ||
             !data.pulse ||
             !data.temperature ||
-            !data.time) {
+            !data.time ||
+            data.analyzer_alarm === undefined ||
+            data.fall === undefined ||
+            data.activity === undefined) {
             res.sendStatus(400);
             return;
         }

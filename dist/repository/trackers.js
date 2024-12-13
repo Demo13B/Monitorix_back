@@ -29,6 +29,28 @@ class TrackerRepository {
         }
         return tracker.tracker_id;
     };
+    readTrackerNames = async () => {
+        let res;
+        try {
+            const client = await db_1.dbPool.connect();
+            try {
+                res = (await client.query(`
+                    SELECT mac_address
+                    FROM trackers
+                    `)).rows;
+            }
+            catch (queryError) {
+                throw queryError;
+            }
+            finally {
+                client.release();
+            }
+        }
+        catch (connError) {
+            throw connError;
+        }
+        return res;
+    };
     writeTracker = async (tracker) => {
         try {
             const client = await db_1.dbPool.connect();

@@ -6,6 +6,18 @@ class TrackerRouter {
     _router;
     constructor(service, auth, check) {
         this._router = (0, express_1.Router)();
+        this._router.get('/', auth.userPassCheck, auth.authValid, auth.adminCheck, async (req, res) => {
+            let result;
+            try {
+                result = await service.readNames();
+            }
+            catch (error) {
+                res.sendStatus(503);
+                console.log(error);
+                return;
+            }
+            res.status(200).send(result);
+        });
         this._router.post('/', auth.userPassCheck, auth.authValid, auth.adminCheck, check.trackerCheck, async (req, res) => {
             try {
                 await service.insert(req.body.tracker);

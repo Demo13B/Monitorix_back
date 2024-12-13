@@ -18,6 +18,18 @@ class BrigadesRouter {
             }
             res.status(200).json(result);
         });
+        this._router.get('/names', auth.userPassCheck, auth.authValid, auth.adminCheck, async (req, res) => {
+            let result;
+            try {
+                result = await service.readNames();
+            }
+            catch (error) {
+                res.sendStatus(503);
+                console.error(error);
+                return;
+            }
+            res.status(200).send(result);
+        });
         this._router.post('/', auth.userPassCheck, auth.authValid, auth.adminCheck, check.brigadeCheck, async (req, res) => {
             const brig = req.body.brigade;
             let status;

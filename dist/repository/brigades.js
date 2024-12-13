@@ -65,6 +65,28 @@ class BrigadeRepository {
         }
         return brig.brigade_id;
     };
+    readNames = async () => {
+        let result;
+        try {
+            const client = await db_1.dbPool.connect();
+            try {
+                result = (await client.query(`
+                    SELECT name
+                    FROM brigades
+                    `)).rows;
+            }
+            catch (queryError) {
+                throw queryError;
+            }
+            finally {
+                client.release();
+            }
+        }
+        catch (connError) {
+            throw connError;
+        }
+        return result;
+    };
     writeBrigade = async (brig) => {
         try {
             const client = await db_1.dbPool.connect();
