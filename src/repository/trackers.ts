@@ -1,6 +1,5 @@
-import { connect } from "http2";
 import { dbPool } from "../db";
-import { tracker, trackerID } from "models/objects";
+import { tracker, trackerID, trackerMac } from "models/objects";
 
 export class TrackerRepository {
     public readByName = async (mac_address: string) => {
@@ -29,6 +28,28 @@ export class TrackerRepository {
 
         return tracker.tracker_id;
     };
+
+    public readTrackerNames = async () => {
+        let res: trackerMac[];
+
+        try {
+            const client = await dbPool.connect();
+            try {
+                res = (await client.query(`
+                    SELECT mac_address
+                    FROM trackers
+                    `)).rows;
+            } catch (queryError) {
+                throw queryError;
+            } finally {
+                client.release();
+            }
+        } catch (connError) {
+            throw connError;
+        }
+
+        return res;
+    }
 
     public writeTracker = async (tracker: tracker) => {
         try {

@@ -1,5 +1,5 @@
 import { dbPool } from "../db";
-import { brigade, brigadeDB, brigadeID } from "models/objects";
+import { brigade, brigadeDB, brigadeID, brigadeName } from "models/objects";
 
 export class BrigadeRepository {
     public readAll = async () => {
@@ -62,6 +62,28 @@ export class BrigadeRepository {
         }
 
         return brig.brigade_id;
+    };
+
+    public readNames = async () => {
+        let result: brigadeName[];
+
+        try {
+            const client = await dbPool.connect();
+            try {
+                result = (await client.query(`
+                    SELECT name
+                    FROM brigades
+                    `)).rows;
+            } catch (queryError) {
+                throw queryError;
+            } finally {
+                client.release();
+            }
+        } catch (connError) {
+            throw connError;
+        }
+
+        return result;
     };
 
     public writeBrigade = async (brig: brigadeDB) => {

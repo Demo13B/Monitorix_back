@@ -3,3 +3,5 @@ tsconfig.json
 dist
 /.env
 passwords.txt
+fullchain.pem
+privkey.pem
