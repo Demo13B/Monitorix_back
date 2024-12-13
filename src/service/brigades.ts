@@ -1,4 +1,4 @@
-import { brigade, brigadeDB, brigadeInput } from "models/objects";
+import { brigade, brigadeDB, brigadeInput, brigadeName } from "models/objects";
 import { BrigadeRepository } from "repository/brigades";
 import { FacilitiesRepository } from "repository/facilities";
 
@@ -19,6 +19,24 @@ export class BrigadesService {
             throw error;
         }
         return brigades;
+    };
+
+    public readNames = async () => {
+        let queryRes: brigadeName[];
+
+        try {
+            queryRes = await this._repo.readNames();
+        } catch (error) {
+            throw error;
+        }
+
+        let result: string[] = [];
+
+        for (let res of queryRes) {
+            result.push(res.name);
+        }
+
+        return result;
     }
 
     public insert = async (brig: brigadeInput) => {

@@ -160,3 +160,7 @@ export type trackerMac = {
     mac_address: string
 };
 
+export type brigadeName = {
+    name: string
+}
+
