@@ -6,6 +6,8 @@ export class RedisDB {
     });
 
     private connect = async () => {
+        if (this.client.isOpen) return;
+
         console.log('Connecting to RDB.....')
         await this.client.connect();
         console.log('Connected')
@@ -26,7 +28,6 @@ export class RedisDB {
         }
         console.log(res);
 
-        this.client.destroy();
     }
 
     public get = async (key: string) => {
@@ -37,7 +38,6 @@ export class RedisDB {
         }
 
         const res = await this.client.get(key);
-        this.client.destroy();
         return res;
     }
 
@@ -50,7 +50,6 @@ export class RedisDB {
 
         const res = await this.client.del(key);
         console.log(res);
-        this.client.destroy();
     }
 
     public exists = async (key: string) => {
@@ -61,7 +60,6 @@ export class RedisDB {
         }
 
         const res = await this.client.exists(key);
-        this.client.destroy();
         return res;
     }
 };
