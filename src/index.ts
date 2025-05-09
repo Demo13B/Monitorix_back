@@ -10,17 +10,18 @@ async function main() {
 
     dotenv.config();
 
+    let server;
     if (!process.env.FULLCHAIN_PATH || !process.env.KEY_PATH) {
-        console.log("No certificate");
-        return;
+        console.log("No certificate. Starting in dev mode on http");
+        server = http.createServer(app);
+    } else {
+        const credentials = {
+            cert: fs.readFileSync(process.env.FULLCHAIN_PATH),
+            key: fs.readFileSync(process.env.KEY_PATH)
+        };
+        server = https.createServer(credentials, app);
     }
 
-    const credentials = {
-        cert: fs.readFileSync(process.env.FULLCHAIN_PATH),
-        key: fs.readFileSync(process.env.KEY_PATH)
-    };
-
-    let server = https.createServer(credentials, app);
     server.listen(process.env.PORT);
     console.log('App started on port: ', process.env.PORT);
 };
