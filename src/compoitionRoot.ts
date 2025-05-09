@@ -23,6 +23,8 @@ import { FacilitiesRouter } from "./routers/facilities";
 import { TrackerRepository } from "./repository/trackers";
 import { TrackerService } from "./service/trackers";
 import { TrackerRouter } from "./routers/trackers";
+import { Tokenizer } from "./tokenizer";
+import { RedisDB } from "./rdb";
 
 export class CompositionRoot {
     private readonly _app: App;
@@ -30,11 +32,13 @@ export class CompositionRoot {
     constructor() {
         const hasher = new PasswordHasher;
         const dataValid = new DataValidator;
+        const tk = new Tokenizer;
+        const rdb = new RedisDB;
 
         const authRepo = new AuthRepo;
         const authService = new AuthService(authRepo, hasher);
         const authValid = new AuthValidation(authService);
-        const authRouter = new AuthRouter(authService, authValid);
+        const authRouter = new AuthRouter(authService, authValid, tk, rdb);
 
         const userRepo = new UserRepository;
         const dataRepo = new DataRepository;

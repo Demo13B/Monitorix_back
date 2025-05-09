@@ -6,6 +6,7 @@ import { DataRouter } from "routers/data";
 import { FacilitiesRouter } from "routers/facilities";
 import { TrackerRouter } from "routers/trackers";
 import { UserRouter } from "routers/users";
+import cookieParser from "cookie-parser";
 
 export class App {
     private readonly _app: Express;
@@ -24,6 +25,7 @@ export class App {
         const bodyParser = express.json();
 
         this._app.use(bodyParser);
+        this._app.use(cookieParser());
 
         this._app.use('/api/auth', authRouter.get_internal());
         this._app.use('/api/users', userRouter.get_internal());

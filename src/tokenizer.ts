@@ -11,8 +11,8 @@ export class Tokenizer {
         }
     }
 
-    public make_token = (payload) => {
-        const token = sign(payload, this.secret)
+    public make_token = (payload, expiry: number) => {
+        const token = sign(payload, this.secret, { expiresIn: expiry })
 
         return token;
     }
