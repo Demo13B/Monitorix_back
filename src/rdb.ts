@@ -2,7 +2,8 @@ import { createClient } from "redis"
 
 export class RedisDB {
     private client = createClient({
-        url: process.env.RDB_URL
+        url: process.env.RDB_URL,
+        pingInterval: 30000
     });
 
     private connect = async () => {
@@ -11,6 +12,18 @@ export class RedisDB {
         console.log('Connecting to RDB.....')
         await this.client.connect();
         console.log('Connected')
+
+        this.client.on('error', (err) => {
+            console.error(`Redis error: ${err}`);
+        })
+
+        this.client.on('reconnecting', () => {
+            console.log('Attempting a reconnect.....');
+        })
+
+        this.client.on('ready', () => {
+            console.log('Reconnected');
+        });
     }
 
     public set = async (key: string, value: string, expiry: number = 0) => {
