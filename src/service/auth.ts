@@ -30,4 +30,16 @@ export class AuthService {
 
         return null;
     };
+
+    public getCredsById = async (user_id: string) => {
+        let credentials: credentials;
+
+        try {
+            credentials = await this.repo.readCredentialsById(user_id);
+        } catch (error) {
+            throw error;
+        }
+
+        return credentials;
+    }
 };

@@ -1,4 +1,4 @@
-import { sign, verify } from 'jsonwebtoken'
+import { JwtPayload, sign, verify } from 'jsonwebtoken'
 
 export class Tokenizer {
     private secret: string;
@@ -18,7 +18,7 @@ export class Tokenizer {
     }
 
     public decode_token = (token) => {
-        const payload = verify(token, this.secret);
+        const payload = verify(token, this.secret) as JwtPayload;
 
         return payload;
     }

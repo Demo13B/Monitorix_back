@@ -32,6 +32,35 @@ export class AuthRepo {
         return credentials;
     };
 
+    public readCredentialsById = async (user_id: string) => {
+        let credentials: credentials;
+        try {
+            const client = await dbPool.connect();
+            try {
+                credentials = (await client.query(`
+                SELECT
+                    user_id,
+                    login,
+                    first_name,
+                    brigade_id,
+                    password_hash,
+                    access_rights
+                FROM users
+                    JOIN roles
+                    USING (role_id)
+                WHERE user_id = $1
+                `, [user_id])).rows[0];
+            } catch (queryError) {
+                throw queryError;
+            } finally {
+                client.release();
+            }
+        } catch (connError) {
+            throw connError;
+        }
+        return credentials;
+    };
+
     public readRoleByName = async (name: string) => {
         let role: roleID
 

@@ -51,8 +51,8 @@ export class AuthRouter {
                 return;
             };
 
-            const access = tk.make_token(cred, 60 * 15);
-            const refresh = tk.make_token({ user_id: cred.user_id }, 60 * 60 * 24);
+            const access = tk.make_token(cred, 60 * 15 * 1000);
+            const refresh = tk.make_token({ user_id: cred.user_id }, 60 * 60 * 24 * 1000);
 
             const token_id = uuidv4();
 
@@ -62,6 +62,50 @@ export class AuthRouter {
             res.cookie('token_id', token_id);
 
             res.status(200).json(cred);
+        });
+
+        this._router.post('/refresh', async (req: Request, res: Response) => {
+            if (!req.cookies.token_id) {
+                res.sendStatus(401);
+                return;
+            }
+
+            const token_id = req.cookies.token_id;
+
+            if (!await rdb.exists(`refresh:${token_id}`)) {
+                res.status(401).send('The refresh token has expired or been deleted');
+                return;
+            }
+
+            const refresh_payload = tk.decode_token(await rdb.get(`refresh:${token_id}`));
+
+            let cred: credentials | null = null;
+            try {
+                cred = await service.getCredsById(refresh_payload.user_id);
+            } catch (error) {
+                res.sendStatus(503);
+                console.error(error);
+                return;
+            }
+
+            if (!cred) {
+                res.sendStatus(401)
+                return;
+            };
+
+            await rdb.del(`access:${token_id}`);
+            await rdb.del(`refresh:${token_id}`);
+
+            const new_id = uuidv4();
+
+            const access = tk.make_token(cred, 60 * 15 * 1000);
+            const refresh = tk.make_token({ user_id: cred.user_id }, 60 * 60 * 24 * 1000);
+
+            await rdb.set(`access:${new_id}`, access, 60 * 15);
+            await rdb.set(`refresh:${new_id}`, refresh, 60 * 60 * 24);
+
+            res.cookie('token_id', new_id);
+            res.sendStatus(200);
         });
 
         this._router.post('/logout', async (req: Request, res: Response) => {
