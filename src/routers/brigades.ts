@@ -11,7 +11,6 @@ export class BrigadesRouter {
         this._router = Router();
 
         this._router.get('/',
-            auth.userPassCheck,
             auth.authValid,
             auth.adminCheck,
             async (req: Request, res: Response) => {
@@ -29,7 +28,6 @@ export class BrigadesRouter {
             });
 
         this._router.get('/names',
-            auth.userPassCheck,
             auth.authValid,
             auth.adminCheck,
             async (req: Request, res: Response) => {
@@ -48,7 +46,6 @@ export class BrigadesRouter {
         );
 
         this._router.post('/',
-            auth.userPassCheck,
             auth.authValid,
             auth.adminCheck,
             check.brigadeCheck,
@@ -74,7 +71,6 @@ export class BrigadesRouter {
         );
 
         this._router.delete('/',
-            auth.userPassCheck,
             auth.authValid,
             auth.adminCheck,
             check.deleteNameCheck,

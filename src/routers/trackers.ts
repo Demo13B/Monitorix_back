@@ -14,7 +14,6 @@ export class TrackerRouter {
         this._router = Router();
 
         this._router.get('/',
-            auth.userPassCheck,
             auth.authValid,
             auth.adminCheck,
             async (req: Request, res: Response) => {
@@ -33,7 +32,6 @@ export class TrackerRouter {
         )
 
         this._router.post('/',
-            auth.userPassCheck,
             auth.authValid,
             auth.adminCheck,
             check.trackerCheck,
@@ -51,7 +49,6 @@ export class TrackerRouter {
         );
 
         this._router.delete('/',
-            auth.userPassCheck,
             auth.authValid,
             auth.adminCheck,
             check.deleteMacCheck,

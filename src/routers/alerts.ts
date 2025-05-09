@@ -11,7 +11,7 @@ export class AlertsRouter {
     constructor(service: AlertsService, repo: AlertsRepository, auth: AuthValidation, check: DataValidator) {
         this._router = Router();
 
-        this._router.get('/', auth.userPassCheck, auth.authValid, async (req: Request, res: Response) => {
+        this._router.get('/', auth.authValid, async (req: Request, res: Response) => {
             const user_id = req.body.user_id;
             const brigade_id = req.body.brigade_id;
             const ar = req.body.access_rights;
@@ -29,7 +29,6 @@ export class AlertsRouter {
         });
 
         this._router.get('/stats/users',
-            auth.userPassCheck,
             auth.authValid,
             auth.adminCheck,
             async (req: Request, res: Response) => {
@@ -47,7 +46,6 @@ export class AlertsRouter {
         );
 
         this._router.get('/stats/brigades',
-            auth.userPassCheck,
             auth.authValid,
             auth.adminCheck,
             async (req: Request, res: Response) => {
@@ -65,7 +63,6 @@ export class AlertsRouter {
         );
 
         this._router.get('/stats/facilities',
-            auth.userPassCheck,
             auth.authValid,
             auth.adminCheck,
             async (req: Request, res: Response) => {
@@ -83,7 +80,6 @@ export class AlertsRouter {
         );
 
         this._router.delete('/',
-            auth.userPassCheck,
             auth.authValid,
             auth.adminCheck,
             check.deleteLoginCheck,

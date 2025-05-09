@@ -37,7 +37,7 @@ export class CompositionRoot {
 
         const authRepo = new AuthRepo;
         const authService = new AuthService(authRepo, hasher);
-        const authValid = new AuthValidation(authService);
+        const authValid = new AuthValidation(authService, rdb, tk);
         const authRouter = new AuthRouter(authService, authValid, tk, rdb);
 
         const userRepo = new UserRepository;

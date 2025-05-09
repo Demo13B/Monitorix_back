@@ -10,7 +10,7 @@ export class DataRouter {
     constructor(service: DataService, auth: AuthValidation, data: DataValidator, check: DataValidator) {
         this._router = Router();
 
-        this._router.get('/', auth.userPassCheck, auth.authValid, async (req: Request, res: Response) => {
+        this._router.get('/', auth.authValid, async (req: Request, res: Response) => {
             const user_id = req.body.user_id;
             const ar = req.body.access_rights;
             const brigade_id = req.body.brigade_id;
@@ -29,7 +29,6 @@ export class DataRouter {
         });
 
         this._router.get('/:id',
-            auth.userPassCheck,
             auth.authValid,
             data.idCheck,
             async (req: Request, res: Response) => {
@@ -52,7 +51,6 @@ export class DataRouter {
         );
 
         this._router.post('/',
-            auth.userPassCheck,
             auth.authValid,
             auth.adminCheck,
             check.dataCheck,
