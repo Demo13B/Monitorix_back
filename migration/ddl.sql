@@ -152,10 +152,10 @@ BEGIN
         VALUES (new.tracker_id, 1, 'The temperature is below normal limit', new.time);
     END IF;
 
-    IF new.temperature >= 25 THEN
+    IF new.temperature >= 35 THEN
         INSERT INTO "alerts" ("tracker_id", "type", "message", "time")
         VALUES (new.tracker_id, 2, 'The ambient temperature is dangerously high!', new.time);
-    ELSIF new.temperature >= 35 THEN
+    ELSIF new.temperature >= 25 THEN
         INSERT INTO "alerts" ("tracker_id", "type", "message", "time")
         VALUES (new.tracker_id, 1, 'The ambient temperature is above normal limit', new.time);
     END IF;

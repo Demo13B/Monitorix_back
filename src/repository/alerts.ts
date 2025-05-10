@@ -1,4 +1,4 @@
-import { alert, userStat, brigadeStat, facilityStat } from "models/objects";
+import { alert, userStat, brigadeStat, facilityStat, alertDB } from "models/objects";
 import { dbPool } from "../db";
 
 export class AlertsRepository {
@@ -225,4 +225,29 @@ export class AlertsRepository {
 
         return true;
     };
+
+    public writeAlert = async (alertData: alertDB) => {
+        try {
+            const client = await dbPool.connect();
+            try {
+                client.query(`
+                    INSERT INTO alerts (tracker_id, type, message, time)
+                    VALUES ($1, $2, $3, $4)
+                    `, [
+                    alertData.tracker_id,
+                    alertData.type,
+                    alertData.message,
+                    alertData.time
+                ]);
+            } catch (queryError) {
+                throw queryError;
+            } finally {
+                client.release();
+            }
+        } catch (connError) {
+            throw connError;
+        }
+
+        return true;
+    }
 };

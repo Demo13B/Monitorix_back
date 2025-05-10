@@ -164,3 +164,10 @@ export type brigadeName = {
     name: string
 }
 
+export type alertDB = {
+    tracker_id: number,
+    type: number,
+    message: string,
+    time: string
+}
+

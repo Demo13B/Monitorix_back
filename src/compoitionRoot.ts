@@ -24,10 +24,11 @@ import { TrackerRepository } from "./repository/trackers";
 import { TrackerService } from "./service/trackers";
 import { TrackerRouter } from "./routers/trackers";
 import { Tokenizer } from "./tokenizer";
-import { RedisDB } from "./rdb";
+import { AlertListener, RedisDB } from "./rdb";
 
 export class CompositionRoot {
     private readonly _app: App;
+    private readonly _alertListener: AlertListener;
 
     constructor() {
         const hasher = new PasswordHasher;
@@ -49,7 +50,7 @@ export class CompositionRoot {
 
 
         const userService = new UserService(userRepo, brigadesRepo, authRepo, trackerRepo, hasher);
-        const dataService = new DataService(dataRepo, trackerRepo);
+        const dataService = new DataService(dataRepo, trackerRepo, rdb);
         const alertsService = new AlertsService(alertsRepo);
         const brigadesService = new BrigadesService(brigadesRepo, facilitiesRepo);
         const facilitiesService = new FacilitiesService(facilitiesRepo);
@@ -69,6 +70,9 @@ export class CompositionRoot {
             alertsRouter, brigadesRouter, facilitiesRouter,
             trackerRouter
         );
+
+        this._alertListener = new AlertListener(rdb, alertsService);
+        this._alertListener.subscribe('alerts')
     }
 
     app = () => {

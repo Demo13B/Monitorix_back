@@ -1,4 +1,4 @@
-import { alert } from "models/objects";
+import { alert, alertDB } from "models/objects";
 import { AlertsRepository } from "repository/alerts";
 
 export class AlertsService {
@@ -61,6 +61,17 @@ export class AlertsService {
 
         try {
             status = await this._repo.deleteByLogin(login);
+        } catch (error) {
+            throw error;
+        }
+
+        return status;
+    }
+
+    public add = async (alertData: alertDB) => {
+        let status: boolean;
+        try {
+            status = await this._repo.writeAlert(alertData);
         } catch (error) {
             throw error;
         }
