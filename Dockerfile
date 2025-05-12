@@ -27,6 +27,7 @@ COPY ./package.json ./yarn.lock ./
 RUN yarn install
 
 COPY ./src ./src
+COPY ./tsconfig.json ./
 
 RUN yarn compile
 
@@ -38,7 +39,6 @@ COPY ./package.json ./yarn.lock ./
 
 RUN yarn install --production
 
-COPY --from=builder ./dist ./dist
-COPY ./fullchain.pem ./privkey.pem ./
+COPY --from=builder /app/dist ./dist
 
 ENTRYPOINT [ "yarn", "start" ]
