@@ -1,16 +1,13 @@
 import { CompositionRoot } from "./compoitionRoot"
 import http from "http"
 import https from "https"
-import dotenv from "dotenv"
 import fs from "fs"
 
 async function main() {
     const cr = new CompositionRoot;
     const app = cr.app().express_app();
 
-    dotenv.config();
-
-    let server;
+    let server: http.Server;
     if (!process.env.FULLCHAIN_PATH || !process.env.KEY_PATH) {
         console.log("No certificate. Starting in dev mode on http");
         server = http.createServer(app);
